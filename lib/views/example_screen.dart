@@ -1,13 +1,19 @@
 
 import 'package:flutter/material.dart';
-import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
+//import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
+import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 
 
 
 class ExampleScreen extends StatelessWidget{
-  const ExampleScreen({super.key});
-  
-  
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  ExampleScreen({super.key});
+
+
+
 @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -17,7 +23,7 @@ class ExampleScreen extends StatelessWidget{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           PrimaryButton(text: 'Boton principal', onPressed: () => print('Botón presionado'),),
+           CustomTextfield(controller: emailController, labelText: 'Correo electrónico'),
            const SizedBox(height: 20,),
            const Text('XD'),
            
