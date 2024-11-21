@@ -23,7 +23,7 @@ class ExampleScreen extends StatelessWidget{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           CustomTextfield(controller: emailController, labelText: 'Correo electrónico'),
+           CustomTextfield(controller: emailController, labelText: 'Correo electrónico', hintText: '',),
            const SizedBox(height: 20,),
            const Text('XD'),
            

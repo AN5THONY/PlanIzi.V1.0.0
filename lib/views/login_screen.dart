@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget{
               const Text('"Organiza tu vida, domina tu día."',
               style: TextStyle(fontSize: 16, color: AppColors.secondary),),
               const SizedBox(height: 30,),
-              CustomTextfield(controller: emailController , labelText: 'Correo electrónico')
+              CustomTextfield(controller: emailController , labelText: 'Correo electrónico', hintText: 'PlanIzi@gmail.com',)
             ],
           ), 
           ),        
