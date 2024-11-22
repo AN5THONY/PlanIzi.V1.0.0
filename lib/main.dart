@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
+
 //import 'package:plan_izi_v2/views/example_screen.dart';
 import 'package:plan_izi_v2/views/login_screen.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.background,
         appBarTheme: const AppBarTheme (
           backgroundColor: AppColors.primary,
-          titleTextStyle: TextStyle(
+          titleTextStyle: TextStyle( 
             color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
