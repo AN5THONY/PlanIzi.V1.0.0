@@ -1,14 +1,15 @@
 
 import 'package:flutter/material.dart';
-//import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
-import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
+import 'package:plan_izi_v2/widgets/dropdown.dart/custom_dropdown.dart';
+
+
 
 
 
 class ExampleScreen extends StatelessWidget{
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final List<String> ageOption = List.generate(100, (index) => "${index + 1}",); 
+
 
   ExampleScreen({super.key});
 
@@ -23,9 +24,15 @@ class ExampleScreen extends StatelessWidget{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           CustomTextfield(controller: emailController, labelText: 'Correo electrónico', hintText: '',),
-           const SizedBox(height: 20,),
-           const Text('XD'),
+           CustomDropdown(
+           hintText: "Edad", 
+           items: ageOption,
+           onChanged: (value) {
+            //Logica 
+            // ignore: avoid_print
+            print("Edad Seleccionada: $value");
+           }
+          )
            
           ],
         ),
