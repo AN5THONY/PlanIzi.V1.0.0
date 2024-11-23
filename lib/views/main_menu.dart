@@ -39,9 +39,9 @@ class MainMenu extends StatelessWidget {
                 unselectedLabelColor: Color.fromRGBO(30, 174, 146, 1),
 
                 tabs: [
+                  TabBars(icono: Icons.home,),
                   TabBars(icono: Icons.calendar_month,),
                   TabBars(icono: Icons.favorite,),
-                  TabBars(icono: Icons.home,),
                   TabBars(icono: Icons.menu,),
                 ],
               ),
