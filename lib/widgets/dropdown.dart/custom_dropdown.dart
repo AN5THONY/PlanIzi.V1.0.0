@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 
 class CustomDropdown extends StatelessWidget {
   final String hintText; 
-  final List<dynamic> items;
-  final String selectedItem;
+  final List<String> items;
+  final String? selectedItem;
   final void Function(String?)? onChanged; 
   
 
   const CustomDropdown({
   required this.hintText,
   required this.items,
-  this.selectedItem = '',
+  this.selectedItem,
   this.onChanged,
   super.key
   });
@@ -32,7 +32,7 @@ class CustomDropdown extends StatelessWidget {
           borderRadius: BorderRadius.circular(10)
         )
       ),
-      items: items.map<DropdownMenuItem<dynamic>>((dynamic item) {
+      items: items.map<DropdownMenuItem<String>>((String item) {
         return DropdownMenuItem<String>(
           value: item,
           child: Text(item),

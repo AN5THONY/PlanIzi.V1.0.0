@@ -37,13 +37,14 @@ class RegisterScreen extends StatelessWidget {
               const SizedBox(height: 10,),
               CustomTextfield(controller: lastNameController, labelText: 'Introduce tus apellidos'),
               const SizedBox(height: 10,),
-              /*Row (
-                  children: [
-                    CustomDropdown(hintText: 'Edad', items: ageoptions, ),
-                    const SizedBox(width: 20),
-                    CustomDropdown(hintText: 'Género', items: genderOptions, ),
-                  ],
-              ),*/
+              Row(
+                children: [
+                  CustomDropdown(hintText: 'Edad', items: ageoptions, selectedItem: null, onChanged: (value) {
+                    print("Edad seleccionada: ${value}");
+                  },)
+                ],
+
+              ),
               const SizedBox(height: 10,),
               CustomTextfield(
                 controller: passwordController,
