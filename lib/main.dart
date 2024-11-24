@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
-import 'package:plan_izi_v2/views/example_screen.dart';
+import 'package:plan_izi_v2/views/register_screen.dart';
 
-
-//import 'package:plan_izi_v2/views/example_screen.dart';
 
 
 
@@ -36,7 +34,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: AppColors.accent,
         ),
       ),
-      home: ExampleScreen(),
+      home: RegisterScreen(),
     );
   }
 }
