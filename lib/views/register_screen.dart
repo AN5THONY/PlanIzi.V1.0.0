@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
+import 'package:plan_izi_v2/views/login_screen.dart';
+import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/dropdown.dart/custom_dropdown.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 
@@ -35,11 +37,47 @@ class RegisterScreen extends StatelessWidget {
               const SizedBox(height: 10,),
               CustomTextfield(controller: lastNameController, labelText: 'Introduce tus apellidos'),
               const SizedBox(height: 10,),
-              Row (
+              /*Row (
                   children: [
-                    CustomDropdown(hintText: '', items: ageoptions, )
+                    CustomDropdown(hintText: 'Edad', items: ageoptions, ),
+                    const SizedBox(width: 20),
+                    CustomDropdown(hintText: 'Género', items: genderOptions, ),
                   ],
+              ),*/
+              const SizedBox(height: 10,),
+              CustomTextfield(
+                controller: passwordController,
+                labelText: 'Establece tu contraseña',
+                hintText: 'Tu contraseña',
+                isPassword: true,
+                 ),
+              const SizedBox(height: 10,),
+              CustomTextfield(
+                controller: confirmController,
+                labelText: 'Confirma tu contraseña',
+                hintText: 'Confirma tu contraseña',
               ),
+              const SizedBox(height: 10,),
+              PrimaryButton(text: '              Contuinar              ', onPressed: (){
+                //validación y proceso de datros
+                if (passwordController.text == confirmController.text) {
+                  // ignore: avoid_print
+                  print("Nombres: ${nameController.text}");
+                  // ignore: avoid_print
+                  print("Apellidos: ${lastNameController.text}");
+                  // ignore: avoid_print
+                  print("Correo: ${emailController.text}");
+                }
+              }),
+              const SizedBox(height: 10,),
+              TextButton(onPressed: (){
+                 Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
+              }, child: const Text('Iniciar Sesión'),),
+              TextButton(onPressed: (){}, child: const Text('¿Olvidaste tu contraseña?'),),
+
             ],
           ),
         ),

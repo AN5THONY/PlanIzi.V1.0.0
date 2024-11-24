@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
+import 'package:plan_izi_v2/views/register_screen.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 
@@ -72,13 +73,17 @@ class LoginScreen extends StatelessWidget{
               }),
               const SizedBox(height: 20,),
               TextButton(
-              onPressed: (){
+                onPressed: (){
                   // FALTA LOGICA 
               },
               child: const Text("¿Olvidaste la contraseña?"),
               ),
-              TextButton(onPressed: (){
-                    //FALTA LOGICA 
+              TextButton(
+                onPressed: (){
+                   Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegisterScreen()),
+                    );
               },
               child: const Text("¿No tienes cuenta? Registrate en PlanIzi")
               ),
