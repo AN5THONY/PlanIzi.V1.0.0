@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
-import 'package:plan_izi_v2/views/register_screen.dart';
+import 'package:plan_izi_v2/views/Recovery/recovery_screen.dart';
+import 'package:plan_izi_v2/views/Resgister/register_screen.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 
@@ -69,12 +70,16 @@ class LoginScreen extends StatelessWidget{
                  // ignore: avoid_print
                 print('Correo: ${emailController.text}');
                 // ignore: avoid_print
-                print('Contraseña: ${emailController.text}');
-              }),
+                print('Contraseña: ${passwordController.text}');
+              },
+              color: AppColors.accent,),
               const SizedBox(height: 20,),
               TextButton(
                 onPressed: (){
-                  // FALTA LOGICA 
+                   Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RecoveryScreen()),
+                    );
               },
               child: const Text("¿Olvidaste la contraseña?"),
               ),

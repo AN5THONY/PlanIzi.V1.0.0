@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/tabbars/appbar_tabbars.dart';
+import '../../widgets/tabbars/appbar_tabbars.dart';
 
 class MainMenu extends StatelessWidget {
   const MainMenu({super.key});

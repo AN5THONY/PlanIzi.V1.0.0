@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
-import 'package:plan_izi_v2/views/login_screen.dart';
+import 'package:plan_izi_v2/views/Login/login_screen.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
-import 'package:plan_izi_v2/widgets/dropdown.dart/custom_dropdown.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 
 
@@ -37,11 +36,9 @@ class RegisterScreen extends StatelessWidget {
               const SizedBox(height: 10,),
               CustomTextfield(controller: lastNameController, labelText: 'Introduce tus apellidos'),
               const SizedBox(height: 10,),
-              Row(
+              const Row(
                 children: [
-                  CustomDropdown(hintText: 'Edad', items: ageoptions, selectedItem: null, onChanged: (value) {
-                    print("Edad seleccionada: ${value}");
-                  },)
+                 //AQUI COLOCAR LA BARRA DE DESPLIEGUE 
                 ],
 
               ),
@@ -69,7 +66,8 @@ class RegisterScreen extends StatelessWidget {
                   // ignore: avoid_print
                   print("Correo: ${emailController.text}");
                 }
-              }),
+              },
+              color: AppColors.third,),
               const SizedBox(height: 10,),
               TextButton(onPressed: (){
                  Navigator.push(

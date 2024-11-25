@@ -6,7 +6,8 @@ class AppColors {
   static const Color secondary = Color.fromARGB(255, 0, 62, 51); // Verde oscuro
   static const Color third = Color.fromARGB(255, 15, 83, 255); // Azul 
   static const Color accent = Color.fromARGB(255, 127, 175, 168); // Verde menta
-  
+  static const Color fourth = Color.fromARGB(255, 255, 47, 85);  //Purpura 
+
   // Colores de fondo
   static const Color background = Color(0xFFF0F0F0); // Gris claro
   static const Color cardBackground = Color(0xFFFFFFFF); // Blanco
