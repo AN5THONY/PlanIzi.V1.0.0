@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:plan_izi_v2/widgets/dropdown.dart/custom_dropdown.dart';
+import 'package:plan_izi_v2/widgets/dropdown/custom_dropdown.dart';
 
 
 

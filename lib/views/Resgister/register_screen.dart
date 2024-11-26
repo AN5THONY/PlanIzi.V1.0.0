@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/views/Login/login_screen.dart';
+import 'package:plan_izi_v2/views/Recovery/recovery_screen.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
+import 'package:plan_izi_v2/widgets/dropdown/custom_dropdown.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 
 
@@ -42,6 +44,7 @@ class RegisterScreen extends StatelessWidget {
                 ],
 
               ),
+              CustomDropdown(hintText: "Edad", items: ageoptions),
               const SizedBox(height: 10,),
               CustomTextfield(
                 controller: passwordController,
@@ -75,8 +78,13 @@ class RegisterScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => LoginScreen()),
                 );
               }, child: const Text('Iniciar Sesión'),),
-              TextButton(onPressed: (){}, child: const Text('¿Olvidaste tu contraseña?'),),
-
+              TextButton(onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RecoveryScreen()),
+                    );
+              }, child: const Text('¿Olvidaste tu contraseña?'),),
+              
             ],
           ),
         ),

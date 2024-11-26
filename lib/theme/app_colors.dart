@@ -4,9 +4,9 @@ class AppColors {
   // Colores principales de la app
   static const Color primary = Color.fromARGB(255, 1, 165, 165); // Teal
   static const Color secondary = Color.fromARGB(255, 0, 62, 51); // Verde oscuro
-  static const Color third = Color.fromARGB(255, 15, 83, 255); // Azul 
+  static const Color third = Color.fromARGB(255, 60, 115, 255); // Azul 
   static const Color accent = Color.fromARGB(255, 127, 175, 168); // Verde menta
-  static const Color fourth = Color.fromARGB(255, 255, 47, 85);  //Purpura 
+  static const Color fourth = Color.fromARGB(255, 255, 68, 102);  //Purpura 
 
   // Colores de fondo
   static const Color background = Color(0xFFF0F0F0); // Gris claro

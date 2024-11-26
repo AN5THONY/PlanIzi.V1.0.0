@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/views/Login/login_screen.dart';
+import 'package:plan_izi_v2/views/Resgister/register_screen.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 
@@ -35,13 +36,20 @@ class RecoveryScreen extends StatelessWidget {
 
               },
               color: AppColors.fourth,),
-              const SizedBox(height: 20,),
+              const SizedBox(height: 40,),
               TextButton(onPressed: (){
                  Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => LoginScreen()),
                     );
-              }, child: const Text('Iniciar Sesión'))
+              }, child: const Text('Iniciar Sesión')),
+              
+              TextButton(onPressed: (){
+                 Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegisterScreen()),
+                    );
+              }, child: const Text('Regístrate en PlanIzi'))
             ],
           ),
         ),
