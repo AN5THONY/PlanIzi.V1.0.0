@@ -64,7 +64,7 @@ class LoginScreen extends StatelessWidget{
               ),
               const SizedBox(height: 40),
               PrimaryButton(
-              text: '             Iniciar Sesión              ',
+              text: '                    Iniciar Sesión                     ',
               onPressed: () {
                 //Lógica de autenticación
                  // ignore: avoid_print
@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget{
                 // ignore: avoid_print
                 print('Contraseña: ${passwordController.text}');
               },
-              color: AppColors.accent,),
+              color: AppColors.primary,),
               const SizedBox(height: 20,),
               TextButton(
                 onPressed: (){

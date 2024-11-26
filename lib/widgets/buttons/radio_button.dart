@@ -31,8 +31,10 @@ class RadioButtonGroup extends StatelessWidget {
               onChanged: (value){
                 if (value != null) {
                   onChanged(value);
-                }
-              });
+                } 
+              },
+              activeColor: AppColors.third,
+              );
           },
         )
         

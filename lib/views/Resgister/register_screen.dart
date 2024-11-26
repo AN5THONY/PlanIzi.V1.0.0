@@ -35,16 +35,11 @@ class RegisterScreen extends StatelessWidget {
               const Text('PlanIzi', style: TextStyle(fontSize:50, fontWeight: FontWeight.bold, color: AppColors.primary)),
               const SizedBox(height: 20,),
               CustomTextfield(controller: nameController, labelText: "Introduce tus nombres"),
-              const SizedBox(height: 10,),
+              const SizedBox(height: 20,),
               CustomTextfield(controller: lastNameController, labelText: 'Introduce tus apellidos'),
               const SizedBox(height: 10,),
-              const Row(
-                children: [
-                 //AQUI COLOCAR LA BARRA DE DESPLIEGUE 
-                ],
-
-              ),
               CustomDropdown(hintText: "Edad", items: ageoptions),
+              CustomDropdown(hintText: "Género", items: genderOptions),
               const SizedBox(height: 10,),
               CustomTextfield(
                 controller: passwordController,
@@ -52,14 +47,15 @@ class RegisterScreen extends StatelessWidget {
                 hintText: 'Tu contraseña',
                 isPassword: true,
                  ),
-              const SizedBox(height: 10,),
+              const SizedBox(height: 20,),
               CustomTextfield(
                 controller: confirmController,
                 labelText: 'Confirma tu contraseña',
                 hintText: 'Confirma tu contraseña',
               ),
-              const SizedBox(height: 10,),
-              PrimaryButton(text: '              Contuinar              ', onPressed: (){
+              const SizedBox(height: 40,),
+              PrimaryButton(text: '                    Contuinar                     ', 
+              onPressed: (){
                 //validación y proceso de datros
                 if (passwordController.text == confirmController.text) {
                   // ignore: avoid_print
