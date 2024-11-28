@@ -38,8 +38,8 @@ class RegisterScreen extends StatelessWidget {
               const SizedBox(height: 20,),
               CustomTextfield(controller: lastNameController, labelText: 'Introduce tus apellidos'),
               const SizedBox(height: 10,),
-              CustomDropdown(hintText: "Edad", items: ageoptions),
-              CustomDropdown(hintText: "Género", items: genderOptions),
+              CustomDropdown(hintText: "Edad", items: ageoptions),//+
+              CustomDropdown(hintText: "Género", items: genderOptions),//+
               const SizedBox(height: 10,),
               CustomTextfield(
                 controller: passwordController,
