@@ -28,6 +28,7 @@ class RadioButtonGroup extends StatelessWidget {
             return RadioListTile(
               value: option, 
               groupValue: selectedOption,
+              title: Text(option),
               onChanged: (value){
                 if (value != null) {
                   onChanged(value);
