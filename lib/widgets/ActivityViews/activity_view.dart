@@ -1,69 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:plan_izi_v2/models/activity_data.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 
 class ActivityView extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final String time;
-  final String details;
-  final Color backgroundColor;
+  final ActivityData activity;
   final VoidCallback onPostpone;
   final VoidCallback onComplete;
   final VoidCallback onDelete;
 
   const ActivityView({
-    required this.title,
-    required this.subtitle,
-    required this.time,
-    required this.details,
-    required this.backgroundColor,
+    super.key,
+    required this.activity,
     required this.onPostpone,
     required this.onComplete,
     required this.onDelete,
-    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(20),
+        color: AppColors.cardBackground,
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Título
           Text(
-            title,
+            activity.title,
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: AppColors.textPrimary,
             ),
           ),
-          const SizedBox(height: 4),
-          // Subtítulo
+          const SizedBox(height: 6),
           Text(
-            subtitle,
+            activity.subtitle,
             style: const TextStyle(
               fontSize: 16,
-              color: AppColors.textPrimary,
+              color: AppColors.textSecondary,
             ),
           ),
-          const SizedBox(height: 12),
-          // Hora y detalles
+          const SizedBox(height: 8),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,   
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                
                 children: [
                   Text(
-                    time,
+                    "Hora: ${activity.time}",
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -72,7 +61,7 @@ class ActivityView extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    details,
+                    activity.details,
                     style: const TextStyle(
                       fontSize: 14,
                       color: AppColors.textSecondary,
@@ -80,36 +69,17 @@ class ActivityView extends StatelessWidget {
                   ),
                 ],
               ),
-              const Column(
-                children: [
-                  Text(
-                    "Sugerencias",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Icon(Icons.youtube_searched_for, color: Colors.red),
-                      SizedBox(width: 8),
-                      Icon(Icons.search, color: Colors.blue),
-                    ],
-                  ),
-                ],
-              ),
+              const Icon(Icons.more_vert, color: AppColors.textSecondary),
             ],
           ),
           const SizedBox(height: 16),
-          // Botones
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton(
                 onPressed: onPostpone,
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.blueAccent,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
                 child: const Text(
@@ -124,27 +94,25 @@ class ActivityView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
                 child: const Text(
-                  "Terminado",
+                  "Completar",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
               TextButton(
                 onPressed: onDelete,
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.grey,
+                  backgroundColor: Colors.redAccent,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
                 child: const Text(
-                  "Eliminar actividad",
+                  "Eliminar",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
             ],
           ),
         ],
-        
       ),
     );
-
   }
 }

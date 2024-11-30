@@ -41,12 +41,12 @@ class MainMenu extends StatelessWidget {
           ),
 
           //CUERPO 
-          body:  TabBarView(
+          body:  const TabBarView(
             children: [
               HomeScreen(),
-              const CalendarScreen(),
-              const SubcriptionsScreen(),
-              const OptionsScreen()
+              CalendarScreen(),
+              SubcriptionsScreen(),
+              OptionsScreen()
             ]),
           
         ),

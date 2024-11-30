@@ -14,7 +14,7 @@ class TodoData {
     return [
       TodoData(id: '1', todoText: 'Buy milk', isDone: true),
       TodoData(id: '2', todoText: 'Walk dog', isDone: true),
-      TodoData(id: '3', todoText: 'Do homework', isDone: false),
+      TodoData(id: '3', todoText: 'Do homework'),
 
     ];
   }
