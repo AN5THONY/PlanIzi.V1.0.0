@@ -41,7 +41,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               Container(
                 decoration: BoxDecoration(color: AppColors.cardBackground, borderRadius: BorderRadius.circular(20)),
                 padding: const EdgeInsets.symmetric(horizontal: 100),
-                margin: const EdgeInsets.only(top: 10, bottom: 20),
+                margin: const EdgeInsets.only(top: 5, bottom: 10),
                 child: const Text('Agenda', style: TextStyle(
                               fontSize: 30,
                               color: AppColors.textPrimary,
@@ -66,9 +66,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
               Container(
                 decoration: BoxDecoration(color: AppColors.cardBackground, borderRadius: BorderRadius.circular(20)),
                 padding: const EdgeInsets.symmetric(horizontal: 80),
-                margin: const EdgeInsets.only(top: 20, bottom: 20),
+                margin: const EdgeInsets.only(top: 10, bottom: 10),
                 child: const Text('Tus actividades', style: TextStyle(
-                              fontSize: 30,
+                              fontSize: 25,
                               color: AppColors.textPrimary,
                               fontWeight: FontWeight.bold,)),
               ),
