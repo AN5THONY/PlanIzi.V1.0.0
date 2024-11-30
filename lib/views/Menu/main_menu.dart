@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:plan_izi_v2/models/botom_data.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/views/Menu/Barras/options_screen.dart';
 import 'package:plan_izi_v2/views/Menu/Calendario/calendar_screen.dart';
 import 'package:plan_izi_v2/views/Menu/Casita/home_screen.dart';
 import 'package:plan_izi_v2/views/Menu/Corazon/subcriptions_screen.dart';
+import 'package:plan_izi_v2/widgets/buttons/custom_speed_dial.dart';
 import '../../widgets/tabbars/appbar_tabbars.dart';
 
 class MainMenu extends StatelessWidget {
@@ -48,6 +50,8 @@ class MainMenu extends StatelessWidget {
               SubcriptionsScreen(),
               OptionsScreen()
             ]),
+          floatingActionButton: CustomSpeedDial(
+            children: getButtonData())
           
         ),
       ),
