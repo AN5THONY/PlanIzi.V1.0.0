@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
+import 'package:plan_izi_v2/views/Activity/cookie_activity_screen.dart';
+import 'package:plan_izi_v2/views/Activity/daily_activity_screen.dart';
+import 'package:plan_izi_v2/views/Activity/work_activity_screen.dart';
 
-List<SpeedDialChild> getButtonData() {
+
+List<SpeedDialChild> getButtonData(BuildContext context) {
   return [
     SpeedDialChild(
       child: const Icon(Icons.add_home, color: Colors.white),
@@ -15,10 +19,36 @@ List<SpeedDialChild> getButtonData() {
       ),
       backgroundColor: AppColors.accent,
       onTap: () {
-        // Acción para el botón
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DailyActivityScreen(),
+          ),
+          
+        );
       },
     ),
     SpeedDialChild(
+      child: const Icon(Icons.cookie, color: Colors.white),
+      labelWidget: const Padding(
+        padding: EdgeInsets.only(right: 10),
+        child: Text(
+          "A COCINAR!!",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
+      backgroundColor: AppColors.primary,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CookieActivityScreen(),
+          ),
+          
+        );
+      },
+    ),
+     SpeedDialChild(
       child: const Icon(Icons.add_alarm, color: Colors.white),
       labelWidget: const Padding(
         padding: EdgeInsets.only(right: 10),
@@ -88,6 +118,7 @@ List<SpeedDialChild> getButtonData() {
         // Acción para el botón
       },
     ),
+
     SpeedDialChild(
       child: const Icon(Icons.add_home_work, color: Colors.white),
       labelWidget: const Padding(
@@ -99,7 +130,14 @@ List<SpeedDialChild> getButtonData() {
       ),
       backgroundColor: AppColors.fifth,
       onTap: () {
-        // Acción para el botón
+        
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const WorkActivityScreen(),
+          ),
+
+        );
       },
     ),
     SpeedDialChild(
@@ -116,5 +154,6 @@ List<SpeedDialChild> getButtonData() {
         // Acción para el botón
       },
     ),
+    
   ];
 }

@@ -51,7 +51,7 @@ class MainMenu extends StatelessWidget {
               OptionsScreen()
             ]),
           floatingActionButton: CustomSpeedDial(
-            children: getButtonData())
+            children: getButtonData(context))
           
         ),
       ),
