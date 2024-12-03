@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
+import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/emp_primium.dart';
+import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/plu_primium.dart';
+import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/sus_primium.dart';
 
 
 class OptionsScreen extends StatelessWidget {
@@ -60,7 +63,12 @@ class OptionsScreen extends StatelessWidget {
                       'Sin límites, sin publicidad y más alternativas para tu bienestar sin perder tu tiempo.',
                     ),
                     trailing: const Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                    onTap: () {
+                       Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SusPrimium()),
+                    );
+                    },
                   ),
               
                   const Divider(height: 30, thickness: 2,color: AppColors.background,),
@@ -68,9 +76,14 @@ class OptionsScreen extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.ad_units, color: Colors.teal),
                     title: const Text('Publicidad'),
-                    subtitle: const Text('No premium'),
+                    subtitle: const Text('¿Deseas publicar contenido de tu tienda o negocio en nuestro aplicativo? '),
                     trailing: const Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PluPrimium()),
+                      );
+                    },
                   ),
               
                   const Divider(height: 30, thickness: 2,color: AppColors.background,),
@@ -82,7 +95,12 @@ class OptionsScreen extends StatelessWidget {
                       '¿Necesitas publicidad o un lugar donde ofrecer tus productos? Estás en el lugar perfecto para tu negocio.',
                     ),
                     trailing: const Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => EmpPrimium()),
+                    );
+                    },
                   ),
               
                   const Divider(height: 30, thickness: 2,color: AppColors.background,),
@@ -111,7 +129,12 @@ class OptionsScreen extends StatelessWidget {
                     title: const Text('Vibración'),
                     activeColor: Colors.teal,
                   ),
-              
+                  SwitchListTile(
+                    value: true,
+                    onChanged: (value) {},
+                    title: const Text('Notificaciones de tarea '),
+                    activeColor: Colors.teal,
+                  ),
               
                   const Divider(height: 30, thickness: 2,color: AppColors.background,),
                   const FooterSection(), 

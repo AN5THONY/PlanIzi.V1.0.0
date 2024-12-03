@@ -28,7 +28,13 @@ class _SubcriptionsScreenState extends State<SubcriptionsScreen> {
         child: Column(
           children: [
             const SizedBox(height: 20,),
-            CarouselMain(),
+
+            Center(child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              decoration: const BoxDecoration(color: AppColors.cardBackground),
+              child: CarouselMain())),
+
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20.0),
               child: GridView.builder(
