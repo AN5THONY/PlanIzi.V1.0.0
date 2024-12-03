@@ -8,110 +8,120 @@ class OptionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //Perfil 
-              const Center(
-                child: Text(
-                  'Etiqueta (Estudiante o Labor)',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 10),
-              const Center(
-                child: CircleAvatar(
-                  radius: 40,
-                  backgroundColor: AppColors.cardBackground,
-                  child: Icon(
-                    Icons.person,
-                    size: 50,
-                    color: AppColors.background,
+
+        
+          child: Container(
+            
+            decoration: const BoxDecoration(color: AppColors.cardBackground),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+              
+                
+                children: [
+                  const SizedBox(height: 20,),
+                  //Perfil 
+                  const Center(
+                    child: Text(
+                      'Etiqueta (Estudiante o Labor)',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 10),
+                  const Center(
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundColor: AppColors.background,
+                      child: Icon(
+                        Icons.person,
+                        size: 50,
+                        color: AppColors.cardBackground,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const Center(
+                    child: Text('Nombre', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  ),
+                  const Center(
+                    child: Text('No premium', style: TextStyle(color: AppColors.textPrimary)),
+                  ),
+              
+              
+                  const Divider(height: 30, thickness: 5, color: AppColors.background, ),
+              
+                  //BOTONES 
+              
+                  ListTile(
+                    leading: const Icon(Icons.upgrade, color: Colors.teal),
+                    title: const Text('Obtener Suscripción Premium'),
+                    subtitle: const Text(
+                      'Sin límites, sin publicidad y más alternativas para tu bienestar sin perder tu tiempo.',
+                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    onTap: () {},
+                  ),
+              
+                  const Divider(height: 30, thickness: 2,color: AppColors.background,),
+              
+                  ListTile(
+                    leading: const Icon(Icons.ad_units, color: Colors.teal),
+                    title: const Text('Publicidad'),
+                    subtitle: const Text('No premium'),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    onTap: () {},
+                  ),
+              
+                  const Divider(height: 30, thickness: 2,color: AppColors.background,),
+              
+                  ListTile(
+                    leading: const Icon(Icons.business, color: Colors.teal),
+                    title: const Text('¿Eres empresario?'),
+                    subtitle: const Text(
+                      '¿Necesitas publicidad o un lugar donde ofrecer tus productos? Estás en el lugar perfecto para tu negocio.',
+                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    onTap: () {},
+                  ),
+              
+                  const Divider(height: 30, thickness: 2,color: AppColors.background,),
+              
+                  const Text(
+                    'Notificaciones',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+              
+                  ListTile(
+                    leading: const Icon(Icons.notifications, color: Colors.teal),
+                    title: const Text('Sonido'),
+                    trailing: DropdownButton<String>(
+                      value: 'Predeterminado',
+                      items: const [
+                        DropdownMenuItem(value: 'Predeterminado', child: Text('Predeterminado')),
+                        DropdownMenuItem(value: 'Silencio', child: Text('Silencio')),
+                      ],
+                      onChanged: (value) {},
+                    ),
+                  ),
+              
+                  SwitchListTile(
+                    value: true,
+                    onChanged: (value) {},
+                    title: const Text('Vibración'),
+                    activeColor: Colors.teal,
+                  ),
+              
+              
+                  const Divider(height: 30, thickness: 2,color: AppColors.background,),
+                  const FooterSection(), 
+                ],
               ),
-              const SizedBox(height: 10),
-              const Center(
-                child: Text('Nombre', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              ),
-              const Center(
-                child: Text('No premium', style: TextStyle(color: AppColors.textPrimary)),
-              ),
-
-
-              const Divider(height: 30, thickness: 5, color: AppColors.cardBackground, ),
-
-              //BOTONES 
-
-              ListTile(
-                leading: const Icon(Icons.upgrade, color: Colors.teal),
-                title: const Text('Obtener Suscripción Premium'),
-                subtitle: const Text(
-                  'Sin límites, sin publicidad y más alternativas para tu bienestar sin perder tu tiempo.',
-                ),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {},
-              ),
-
-              const Divider(height: 30, thickness: 2,color: AppColors.cardBackground,),
-
-              ListTile(
-                leading: const Icon(Icons.ad_units, color: Colors.teal),
-                title: const Text('Publicidad'),
-                subtitle: const Text('No premium'),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {},
-              ),
-
-              const Divider(height: 30, thickness: 2,color: AppColors.cardBackground,),
-
-              ListTile(
-                leading: const Icon(Icons.business, color: Colors.teal),
-                title: const Text('¿Eres empresario?'),
-                subtitle: const Text(
-                  '¿Necesitas publicidad o un lugar donde ofrecer tus productos? Estás en el lugar perfecto para tu negocio.',
-                ),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {},
-              ),
-
-              const Divider(height: 30, thickness: 2,color: AppColors.cardBackground,),
-
-              const Text(
-                'Notificaciones',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-
-              ListTile(
-                leading: const Icon(Icons.notifications, color: Colors.teal),
-                title: const Text('Sonido'),
-                trailing: DropdownButton<String>(
-                  value: 'Predeterminado',
-                  items: const [
-                    DropdownMenuItem(value: 'Predeterminado', child: Text('Predeterminado')),
-                    DropdownMenuItem(value: 'Silencio', child: Text('Silencio')),
-                  ],
-                  onChanged: (value) {},
-                ),
-              ),
-
-              SwitchListTile(
-                value: true,
-                onChanged: (value) {},
-                title: const Text('Vibración'),
-                activeColor: Colors.teal,
-              ),
-
-
-              const Divider(height: 30, thickness: 2,color: AppColors.cardBackground,),
-              const FooterSection(), 
-            ],
+            ),
           ),
-        ),
+        );
 
-    );
+    
   }
 }
 
@@ -121,7 +131,7 @@ class OptionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.background,
+      color: AppColors.cardBackground,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +148,7 @@ class OptionsScreen extends StatelessWidget {
           _buildOptionButton('¿Necesitas ayuda?'),
           const SizedBox(height: 20),
           
-          const Divider(height: 30, thickness: 2,color: AppColors.cardBackground,),
+          const Divider(height: 30, thickness: 2,color: AppColors.background,),
 
           const Text(
             'Redes',
