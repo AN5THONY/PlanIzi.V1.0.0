@@ -3,6 +3,9 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/views/Activity/cookie_activity_screen.dart';
 import 'package:plan_izi_v2/views/Activity/daily_activity_screen.dart';
+import 'package:plan_izi_v2/views/Activity/ordi_activity_screen.dart';
+import 'package:plan_izi_v2/views/Activity/special_activity_screen.dart';
+import 'package:plan_izi_v2/views/Activity/studient_activity_screen.dart';
 import 'package:plan_izi_v2/views/Activity/work_activity_screen.dart';
 
 
@@ -53,55 +56,20 @@ List<SpeedDialChild> getButtonData(BuildContext context) {
       labelWidget: const Padding(
         padding: EdgeInsets.only(right: 10),
         child: Text(
-          "Actividad Diaria",
+          "Actividad Ordinarios",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
       backgroundColor: AppColors.third,
       onTap: () {
-        // Acción para el botón
-      },
-    ),
-    SpeedDialChild(
-      child: const Icon(Icons.add_alarm, color: Colors.white),
-      labelWidget: const Padding(
-        padding: EdgeInsets.only(right: 10),
-        child: Text(
-          "Actividades Semanales",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      ),
-      backgroundColor: AppColors.sixth,
-      onTap: () {
-        // Acción para el botón
-      },
-    ),
-    SpeedDialChild(
-      child: const Icon(Icons.add_alarm, color: Colors.white),
-      labelWidget: const Padding(
-        padding: EdgeInsets.only(right: 10),
-        child: Text(
-          "Actividades Mensuales",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      ),
-      backgroundColor: AppColors.secondary,
-      onTap: () {
-        // Acción para el botón
-      },
-    ),
-    SpeedDialChild(
-      child: const Icon(Icons.add_alarm, color: Colors.white),
-      labelWidget: const Padding(
-        padding: EdgeInsets.only(right: 10),
-        child: Text(
-          "Actividades Anuales",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      ),
-      backgroundColor: AppColors.seventh,
-      onTap: () {
-        // Acción para el botón
+         Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OrdiActivityScreen(),
+          ),
+          
+        );
+        
       },
     ),
     SpeedDialChild(
@@ -115,7 +83,13 @@ List<SpeedDialChild> getButtonData(BuildContext context) {
       ),
       backgroundColor: AppColors.fourth,
       onTap: () {
-        // Acción para el botón
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SpecialActivityScreen(),
+          ),
+          
+        );
       },
     ),
 
@@ -151,7 +125,13 @@ List<SpeedDialChild> getButtonData(BuildContext context) {
       ),
       backgroundColor: AppColors.fifth,
       onTap: () {
-        // Acción para el botón
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const StudientActivityScreen(),
+          ),
+          
+        );
       },
     ),
     
