@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/models/cookie_data.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
+import 'package:plan_izi_v2/views/Activity/COOKI/crea_cookie_screen.dart';
 import 'package:plan_izi_v2/widgets/Publicidad/espacio_publi.dart';
+import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/cookieActivity/a_cookie.dart';
 
 
@@ -20,7 +22,7 @@ class _CookieActivityState extends State<CookieActivityScreen> {
     CookieData(nombre: 'Matasquita'),
   ];
 
-   void _agregarcookie() {
+  void _agregarcookie() {
     setState(() {
       cookie.add(CookieData(nombre: 'Nueva comida '));
     });
@@ -78,7 +80,7 @@ class _CookieActivityState extends State<CookieActivityScreen> {
                 const SizedBox(height: 40),
           
                 const Text(
-                  'Mi Receta',
+                  'Mi Recetas',
                   style: TextStyle(fontSize: 16, color: AppColors.textPrimary),
                 ),
           
@@ -91,15 +93,10 @@ class _CookieActivityState extends State<CookieActivityScreen> {
                     onDelete: () => _eliminarcookie(index),
                   );
                 }),
-          
-                const SizedBox(height: 30),
-                
-                const Center(child: EspacioPublicidad()),
-                
-                const SizedBox(height: 30),
-                
                 GestureDetector(
-                  onTap: _agregarcookie,
+                  onTap: (){
+                   _agregarcookie();
+                  },
                   child: const Center(
                     child: Text(
                       '+ Agregar otra Receta',
@@ -111,6 +108,25 @@ class _CookieActivityState extends State<CookieActivityScreen> {
                     ),
                   ),
                 ),
+          
+                const SizedBox(height: 30),
+                
+                const Center(child: EspacioPublicidad()),
+                
+                const SizedBox(height: 30),
+                
+                Center(
+                  child: PrimaryButton(
+                    text: '        Ver recetas       ',
+                    onPressed: (){
+                      Navigator.push(context,
+                      MaterialPageRoute(
+                            builder: (context) => const CreaCookieScreen()),
+                      );
+
+                    }, 
+                    color: AppColors.primary)
+                )
               
               
               ],
