@@ -136,8 +136,18 @@ class OptionsScreen extends StatelessWidget {
                     activeColor: Colors.teal,
                   ),
               
+
                   const Divider(height: 30, thickness: 2,color: AppColors.background,),
+
+                  
+              
                   const FooterSection(), 
+                  
+                  
+                  const Divider(height: 30, thickness: 2,color: AppColors.background,),
+                  //CERRRAR SESIÓN 
+
+                    
                 ],
               ),
             ),
@@ -173,6 +183,17 @@ class OptionsScreen extends StatelessWidget {
           
           const Divider(height: 30, thickness: 2,color: AppColors.background,),
 
+
+          ListTile(
+                    leading: const Icon(Icons.logout, size: 40, color: AppColors.error,),
+                    title: const Text('Cerrar Sesión de tu cuenta de PlanIzi', style: TextStyle(color: AppColors.error),),
+                    trailing: const Icon(Icons.arrow_forward_ios, color: AppColors.error,),
+                    onTap: () {
+                      //logica
+                    },
+                  ),
+
+          const Divider(height: 30, thickness: 2,color: AppColors.background,),
           const Text(
             'Redes',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
