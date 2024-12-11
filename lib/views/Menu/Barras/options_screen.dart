@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/emp_primium.dart';
 import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/plu_primium.dart';
 import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/sus_primium.dart';
-import 'package:plan_izi_v2/views/Login/login_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:plan_izi_v2/views/Login/estado_usuario.dart';
 
-class OptionsScreen extends StatefulWidget {
+class OptionsScreen extends StatelessWidget {
   const OptionsScreen({super.key});
 
   @override
-  State<OptionsScreen> createState() => _OptionsScreenState();
-}
-
-class _OptionsScreenState extends State<OptionsScreen> {
-  final User? user = FirebaseAuth.instance.currentUser;
-
-  @override
   Widget build(BuildContext context) {
+    // Obtén el estado del usuario desde el AuthProvider
+    final user = Provider.of<EstadoUsuario>(context).user;
+
     return SingleChildScrollView(
       child: Container(
         decoration: const BoxDecoration(color: AppColors.cardBackground),
@@ -26,9 +22,7 @@ class _OptionsScreenState extends State<OptionsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               //Perfil
               const Center(
                 child: Text(
@@ -49,91 +43,55 @@ class _OptionsScreenState extends State<OptionsScreen> {
                 ),
               ),
               const SizedBox(height: 10),
+              // Nombre o correo del usuario
               Center(
-                child: Text(user?.displayName ?? '${user!.email}',
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
+                child: Text(
+                  user != null
+                      ? (user.displayName ?? user.email ?? 'No autenticado')
+                      : 'No autenticado',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
               const Center(
                 child: Text('No premium',
                     style: TextStyle(color: AppColors.textPrimary)),
               ),
-
               const Divider(
                 height: 30,
                 thickness: 5,
                 color: AppColors.background,
               ),
-
-              //BOTONES
-
-              ListTile(
-                leading: const Icon(Icons.upgrade, color: Colors.teal),
-                title: const Text('Obtener Suscripción Premium'),
-                subtitle: const Text(
-                  'Sin límites, sin publicidad y más alternativas para tu bienestar sin perder tu tiempo.',
-                ),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SusPrimium()),
-                  );
-                },
+              // BOTONES
+              _buildListTile(
+                context,
+                Icons.upgrade,
+                'Obtener Suscripción Premium',
+                'Sin límites, sin publicidad y más alternativas para tu bienestar sin perder tu tiempo.',
+                SusPrimium(),
               ),
-
               const Divider(
-                height: 30,
-                thickness: 2,
-                color: AppColors.background,
+                  height: 30, thickness: 2, color: AppColors.background),
+              _buildListTile(
+                context,
+                Icons.ad_units,
+                'Publicidad',
+                '¿Deseas publicar contenido de tu tienda o negocio en nuestro aplicativo? ',
+                PluPrimium(),
               ),
-
-              ListTile(
-                leading: const Icon(Icons.ad_units, color: Colors.teal),
-                title: const Text('Publicidad'),
-                subtitle: const Text(
-                    '¿Deseas publicar contenido de tu tienda o negocio en nuestro aplicativo? '),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PluPrimium()),
-                  );
-                },
-              ),
-
               const Divider(
-                height: 30,
-                thickness: 2,
-                color: AppColors.background,
+                  height: 30, thickness: 2, color: AppColors.background),
+              _buildListTile(
+                context,
+                Icons.business,
+                '¿Eres empresario?',
+                '¿Necesitas publicidad o un lugar donde ofrecer tus productos? Estás en el lugar perfecto para tu negocio.',
+                EmpPrimium(),
               ),
-
-              ListTile(
-                leading: const Icon(Icons.business, color: Colors.teal),
-                title: const Text('¿Eres empresario?'),
-                subtitle: const Text(
-                  '¿Necesitas publicidad o un lugar donde ofrecer tus productos? Estás en el lugar perfecto para tu negocio.',
-                ),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EmpPrimium()),
-                  );
-                },
-              ),
-
               const Divider(
-                height: 30,
-                thickness: 2,
-                color: AppColors.background,
-              ),
-
-              const Text(
-                'Notificaciones',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-
+                  height: 30, thickness: 2, color: AppColors.background),
+              const Text('Notificaciones',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ListTile(
                 leading: const Icon(Icons.notifications, color: Colors.teal),
                 title: const Text('Sonido'),
@@ -148,7 +106,6 @@ class _OptionsScreenState extends State<OptionsScreen> {
                   onChanged: (value) {},
                 ),
               ),
-
               SwitchListTile(
                 value: true,
                 onChanged: (value) {},
@@ -161,25 +118,30 @@ class _OptionsScreenState extends State<OptionsScreen> {
                 title: const Text('Notificaciones de tarea '),
                 activeColor: Colors.teal,
               ),
-
               const Divider(
-                height: 30,
-                thickness: 2,
-                color: AppColors.background,
-              ),
-
+                  height: 30, thickness: 2, color: AppColors.background),
               const FooterSection(),
-
               const Divider(
-                height: 30,
-                thickness: 2,
-                color: AppColors.background,
-              ),
-              //CERRRAR SESIÓN
+                  height: 30, thickness: 2, color: AppColors.background),
+              // CERRAR SESIÓN
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildListTile(BuildContext context, IconData icon, String title,
+      String subtitle, Widget nextScreen) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.teal),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => nextScreen));
+      },
     );
   }
 }
@@ -195,10 +157,8 @@ class FooterSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Acerca de la aplicación',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
+          const Text('Acerca de la aplicación',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           _buildOptionButton('Invita amigos a la aplicación'),
           const SizedBox(height: 8),
@@ -206,10 +166,8 @@ class FooterSection extends StatelessWidget {
           const SizedBox(height: 8),
           _buildOptionButton('¿Necesitas ayuda?'),
           const SizedBox(height: 20),
-          const Text(
-            'Redes',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
+          const Text('Redes',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -220,7 +178,7 @@ class FooterSection extends StatelessWidget {
               ),
               IconButton(
                 icon: const Icon(Icons.camera_alt,
-                    size: 30, color: Colors.pink), // Simula Instagram
+                    size: 30, color: Colors.pink), // Instagram
                 onPressed: () {},
               ),
               IconButton(
@@ -230,10 +188,7 @@ class FooterSection extends StatelessWidget {
             ],
           ),
           const Divider(
-            height: 30,
-            thickness: 2,
-            color: AppColors.cardBackground,
-          ),
+              height: 30, thickness: 2, color: AppColors.cardBackground),
           const Center(
             child: Column(
               children: [
@@ -249,11 +204,7 @@ class FooterSection extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(
-            height: 30,
-            thickness: 2,
-            color: AppColors.background,
-          ),
+          const Divider(height: 30, thickness: 2, color: AppColors.background),
           ListTile(
             leading: const Icon(Icons.logout, size: 30, color: AppColors.error),
             title: const Text('Cerrar Sesión y salir',
@@ -262,8 +213,9 @@ class FooterSection extends StatelessWidget {
                 size: 25, color: AppColors.error),
             onTap: () async {
               try {
-                // Cerrar sesion
-                await FirebaseAuth.instance.signOut();
+                await context
+                    .read<EstadoUsuario>()
+                    .signOut();
 
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
