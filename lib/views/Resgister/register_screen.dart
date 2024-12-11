@@ -67,6 +67,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 CustomTextfield(
                     controller: lastNameController,
                     labelText: 'Introduce tus apellidos'),
+                const SizedBox(height: 20),
+                CustomTextfield(
+                    controller: emailController,
+                    labelText: 'Introduce tu correo'),
                 const SizedBox(height: 10),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,19 +123,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   hintText: 'Confirma tu contraseña',
                 ),
                 const SizedBox(height: 40),
-                PrimaryButton(text: '                    Contuinar                     ', 
-              onPressed: (){
-                //validación y proceso de datros
-                if (passwordController.text == confirmController.text) {
-                  // ignore: avoid_print
-                  print("Nombres: ${nameController.text}");
-                  // ignore: avoid_print
-                  print("Apellidos: ${lastNameController.text}");
-                  // ignore: avoid_print
-                  print("Correo: ${emailController.text}");
-                }
-              },
-              color: AppColors.third,),
+                PrimaryButton(
+                  text: '                    Contuinar                     ',
+                  onPressed: () {
+                    //validación y proceso de datros
+                    if (passwordController.text == confirmController.text) {
+                      // ignore: avoid_print
+                      print("Nombres: ${nameController.text}");
+                      // ignore: avoid_print
+                      print("Apellidos: ${lastNameController.text}");
+                      // ignore: avoid_print
+                      print("Correo: ${emailController.text}");
+                    }
+                  },
+                  color: AppColors.third,
+                ),
                 const SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
