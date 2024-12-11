@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/emp_primium.dart';
 import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/plu_primium.dart';
 import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/sus_primium.dart';
+import 'package:plan_izi_v2/views/Login/login_screen.dart';
 
-
-class OptionsScreen extends StatelessWidget {
+class OptionsScreen extends StatefulWidget {
   const OptionsScreen({super.key});
+
+  @override
+  State<OptionsScreen> createState() => _OptionsScreenState();
+}
+
+class _OptionsScreenState extends State<OptionsScreen> {
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +52,8 @@ class OptionsScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Center(
-                    child: Text('Nombre', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Center(
+                    child: Text(user?.displayName ?? '${user!.email}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   ),
                   const Center(
                     child: Text('No premium', style: TextStyle(color: AppColors.textPrimary)),
@@ -181,19 +189,6 @@ class OptionsScreen extends StatelessWidget {
           _buildOptionButton('¿Necesitas ayuda?'),
           const SizedBox(height: 20),
           
-          const Divider(height: 30, thickness: 2,color: AppColors.background,),
-
-
-          ListTile(
-                    leading: const Icon(Icons.logout, size: 40, color: AppColors.error,),
-                    title: const Text('Cerrar Sesión de tu cuenta de PlanIzi', style: TextStyle(color: AppColors.error),),
-                    trailing: const Icon(Icons.arrow_forward_ios, color: AppColors.error,),
-                    onTap: () {
-                      //logica
-                    },
-                  ),
-
-          const Divider(height: 30, thickness: 2,color: AppColors.background,),
           const Text(
             'Redes',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -233,6 +228,35 @@ class OptionsScreen extends StatelessWidget {
               ],
             ),
           ),
+          const Divider(height: 30, thickness: 2,color: AppColors.background,),
+
+          ListTile(
+            leading: const Icon(Icons.logout, size: 30, color: AppColors.error),
+            title: const Text('Cerrar Sesión y salir', style: TextStyle(color: AppColors.error)),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 25, color: AppColors.error),
+            onTap: () async {
+              try {
+                // Cerrar esion
+                await FirebaseAuth.instance.signOut();
+                
+                if (context.mounted) {
+                  // Redirigir al login
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  );
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error al cerrar sesión: $e')),
+                  );
+                }
+              }
+            },
+          ),
+
+
+                  
         ],
       ),
     );
@@ -258,4 +282,6 @@ class OptionsScreen extends StatelessWidget {
         style: const TextStyle(fontSize: 14),
       ),
     );
-  }}
+  }
+
+}
