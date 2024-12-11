@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/views/Activity/Laboral/crea_work_screen.dart';
+import 'package:plan_izi_v2/views/Login/login_screen.dart';
+import 'package:plan_izi_v2/views/Login/wrapper.dart';
 import 'package:plan_izi_v2/views/Menu/main_menu.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
 
-
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -21,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'PlanIzi',
       theme: ThemeData(
         primaryColor: AppColors.primary,
-        scaffoldBackgroundColor: AppColors.background,
+        scaffoldBackgroundColor: AppColors.cardBackground,
         appBarTheme: const AppBarTheme (
           backgroundColor: AppColors.primary,
           titleTextStyle: TextStyle( 
@@ -34,7 +38,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: AppColors.accent,
         ),
       ),
-      home:  const CreaWorkScreen(),
+      home: const Wrapper(),
     );
   }
 }

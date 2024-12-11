@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1036703581419",
+    "project_id": "planizi-20cbb",
+    "storage_bucket": "planizi-20cbb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036703581419:android:e9a581f9779b304b76eaae",
+        "android_client_info": {
+          "package_name": "com.example.plan_izi_v2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0laEQRPzkP_UGD--PY6wbAMHZ4IwgU64"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

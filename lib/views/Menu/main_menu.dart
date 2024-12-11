@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/models/botom_data.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
@@ -8,8 +9,22 @@ import 'package:plan_izi_v2/views/Menu/Corazon/subcriptions_screen.dart';
 import 'package:plan_izi_v2/widgets/buttons/custom_speed_dial.dart';
 import '../../widgets/tabbars/appbar_tabbars.dart';
 
-class MainMenu extends StatelessWidget {
+class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
+
+  @override
+  State<MainMenu> createState() => _MainMenuState();
+}
+
+class _MainMenuState extends State<MainMenu> {
+
+
+  final user=FirebaseAuth.instance.currentUser;
+
+
+  signout()async{
+    await FirebaseAuth.instance.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
