@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
@@ -19,9 +20,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final TextEditingController lastNameController = TextEditingController();
 
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController emailController = TextEditingController(); //email
 
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordController =
+      TextEditingController(); //password
 
   final TextEditingController confirmController = TextEditingController();
 
@@ -30,6 +32,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final List<String> genderOptions = ["Masculino", "Femenino", "Otro genero"];
 
   DateTime? selectedDate;
+
+  //REGISTRO
+  signup() async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Usuario creado exitosamente")),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      if (mounted) {
+        if (e.code == 'email-already-in-use') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("El correo ya está en uso. Por favor usa otro."),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Error: ${e.message}")),
+          );
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 20),
                 CustomTextfield(
                     controller: emailController,
-                    labelText: 'Introduce tu correo'),
+                    labelText: 'Introduce tu correo'), //email
                 const SizedBox(height: 10),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -111,6 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 CustomDropdown(hintText: "Género", items: genderOptions),
                 const SizedBox(height: 10),
                 CustomTextfield(
+                  //password
                   controller: passwordController,
                   labelText: 'Establece tu contraseña',
                   hintText: 'Tu contraseña',
@@ -126,15 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 PrimaryButton(
                   text: '                    Contuinar                     ',
                   onPressed: () {
-                    //validación y proceso de datros
-                    if (passwordController.text == confirmController.text) {
-                      // ignore: avoid_print
-                      print("Nombres: ${nameController.text}");
-                      // ignore: avoid_print
-                      print("Apellidos: ${lastNameController.text}");
-                      // ignore: avoid_print
-                      print("Correo: ${emailController.text}");
-                    }
+                    signup();
                   },
                   color: AppColors.third,
                 ),

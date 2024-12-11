@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/views/Login/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:get/get.dart';
 
 
 void main() async{
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'PlanIzi',
       theme: ThemeData(
