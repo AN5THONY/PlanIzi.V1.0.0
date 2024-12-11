@@ -96,17 +96,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     MaterialPageRoute(builder: (context) => RecoveryScreen()),
                   );
                 },
-                child: const Text("¿Olvidaste la contraseña?"),
+                child: const Text("¿No puedes acceder? Recupera tu contraseña aquí"),
               ),
               TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RegisterScreen()),
+                      MaterialPageRoute(builder: (context) => const RegisterScreen()),
                     );
                   },
                   child:
-                      const Text("¿No tienes cuenta? Registrate en PlanIzi")),
+                      const Text("¿Eres nuevo? Crea tu cuenta en Planizi y únete a nosotros")),
             ],
           ),
         ),
