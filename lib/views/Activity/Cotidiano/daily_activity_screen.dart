@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/models/daily_data.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
+import 'package:plan_izi_v2/views/Activity/Cotidiano/ordi_activity_screen.dart';
 import 'package:plan_izi_v2/widgets/Publicidad/espacio_publi.dart';
 import 'package:plan_izi_v2/widgets/dailyActivity/a_daily.dart';
 
@@ -19,11 +20,6 @@ class _DailyActivityScreenState extends State<DailyActivityScreen> {
     DailyData(nombre: 'Pasear A Cookie'),
   ];
 
-   void _agregaractivity() {
-    setState(() {
-      activity.add(DailyData(nombre: 'Nueva actividad cotidiana'));
-    });
-  }
 
   void _eliminaractivity(int index) {
     setState(() {
@@ -98,7 +94,12 @@ class _DailyActivityScreenState extends State<DailyActivityScreen> {
                 const SizedBox(height: 30),
                 
                 GestureDetector(
-                  onTap: _agregaractivity,
+                  onTap: (){ 
+                     Navigator.push(
+                  context,
+                   MaterialPageRoute(builder: (context) =>  OrdiActivityScreen()));
+              
+                  },
                   child: const Center(
                     child: Text(
                       '+ Agregar otro trabajo',

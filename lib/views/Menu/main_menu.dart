@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:plan_izi_v2/models/botom_data.dart';
+import 'package:plan_izi_v2/views/Activity/botom_data.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/views/Menu/Barras/options_screen.dart';
 import 'package:plan_izi_v2/views/Menu/Calendario/calendar_screen.dart';

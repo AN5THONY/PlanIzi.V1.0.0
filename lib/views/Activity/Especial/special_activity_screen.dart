@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/models/special_data.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
+import 'package:plan_izi_v2/views/Activity/Especial/crea_special_screen.dart';
 import 'package:plan_izi_v2/widgets/Publicidad/espacio_publi.dart';
 import 'package:plan_izi_v2/widgets/SpecialActivity/a_special.dart';
 
@@ -98,7 +99,12 @@ class _SpecialActivityScreenState extends State<SpecialActivityScreen> {
                 const SizedBox(height: 30),
                 
                 GestureDetector(
-                  onTap: _agregarspecial,
+                  onTap: () {
+                      Navigator.push(
+                  context,
+                   MaterialPageRoute(builder: (context) =>  const CreaSpecialScreen()));
+              
+                  },
                   child: const Center(
                     child: Text(
                       '+ Agregar otra actividad',
