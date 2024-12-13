@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/models/work_data.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
+import 'package:plan_izi_v2/views/Activity/Laboral/crea_work_screen.dart';
 import 'package:plan_izi_v2/widgets/Publicidad/espacio_publi.dart';
 import 'package:plan_izi_v2/widgets/theWorking/a_work.dart';
 
@@ -16,12 +17,6 @@ class _WorkActivityScreenState extends State<WorkActivityScreen> {
     WorkData(nombre: 'Trabajo'),
     WorkData(nombre: 'Trabajo 2'),
   ];
-
-   void _agregarTrabajo() {
-    setState(() {
-      trabajos.add(WorkData(nombre: 'Nuevo Trabajo'));
-    });
-  }
 
   void _eliminarTrabajo(int index) {
     setState(() {
@@ -94,7 +89,11 @@ class _WorkActivityScreenState extends State<WorkActivityScreen> {
                 const SizedBox(height: 30),
                 
                 GestureDetector(
-                  onTap: _agregarTrabajo,
+                  onTap: (){
+                          Navigator.push(
+                  context,
+                   MaterialPageRoute(builder: (context) =>  const CreaWorkScreen()));
+                  },
                   child: const Center(
                     child: Text(
                       '+ Agregar otro trabajo',

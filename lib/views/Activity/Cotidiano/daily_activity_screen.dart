@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/models/daily_data.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
-import 'package:plan_izi_v2/views/Activity/Cotidiano/ordi_activity_screen.dart';
+import 'package:plan_izi_v2/views/Activity/Cotidiano/crea_coti_screen.dart';
 import 'package:plan_izi_v2/widgets/Publicidad/espacio_publi.dart';
 import 'package:plan_izi_v2/widgets/dailyActivity/a_daily.dart';
 
@@ -97,7 +97,7 @@ class _DailyActivityScreenState extends State<DailyActivityScreen> {
                   onTap: (){ 
                      Navigator.push(
                   context,
-                   MaterialPageRoute(builder: (context) =>  OrdiActivityScreen()));
+                   MaterialPageRoute(builder: (context) =>  const CreaCotiScreen()));
               
                   },
                   child: const Center(

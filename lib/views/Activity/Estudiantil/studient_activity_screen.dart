@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/models/studient_data.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
+import 'package:plan_izi_v2/views/Activity/Estudiantil/crea_studient_screen.dart';
 import 'package:plan_izi_v2/widgets/Publicidad/espacio_publi.dart';
 import 'package:plan_izi_v2/widgets/StudientActivity/a_studient.dart';
 
@@ -98,7 +99,12 @@ class _StudientActivityScreenState extends State<StudientActivityScreen> {
                 const SizedBox(height: 30),
                 
                 GestureDetector(
-                  onTap: _agregarstudient,
+                  onTap: (){
+                       Navigator.push(
+                  context,
+                   MaterialPageRoute(builder: (context) =>  const CreaStudientScreen()));
+              
+                  },
                   child: const Center(
                     child: Text(
                       '+ Agregar otra actividad estudiantil',
