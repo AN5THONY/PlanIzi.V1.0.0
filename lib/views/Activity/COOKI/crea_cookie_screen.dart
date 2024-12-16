@@ -14,6 +14,24 @@ class CreaCookieScreen extends StatefulWidget {
 }
 
 class _CreaCookieScreenState extends State<CreaCookieScreen> {
+
+  TimeOfDay _selectedTime = TimeOfDay.now();
+
+    Future<void> _selectTime(BuildContext context) async {
+      final TimeOfDay? picked = await showTimePicker(
+        context: context,
+        initialTime: _selectedTime,
+        );
+      if (picked != null && picked != _selectedTime) {
+        setState(() {
+          _selectedTime = picked;
+        });
+      } 
+    }
+
+
+
+
   List<bool> selectedDays = List.generate(7, (index) => false);
   List<bool> selectedDaysCo = List.generate(7, (index) => false);
   final days = ["DOM", "LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB"];
@@ -46,7 +64,7 @@ class _CreaCookieScreenState extends State<CreaCookieScreen> {
           'PlanIzi',
           style: TextStyle(
             fontSize: 50,
-            color: Colors.teal,
+            color: AppColors.primary,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -57,9 +75,21 @@ class _CreaCookieScreenState extends State<CreaCookieScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('A cocinar'),
+            const Row(
+          
+                  children: [
+                    Icon(Icons.add, color: AppColors.primary, size: 50, ),
+                    SizedBox(width: 20),
+                    Text(
+                      'A COCINARRR!!!',
+                      style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+          
+          
+                ),
             const SizedBox(height: 10),
-            const Text("Cocino los..."),
+            const Text("Cocino los...", style: TextStyle( fontSize: 18, fontWeight: FontWeight.bold),),
             Wrap(
               spacing: 8.0,
               children: List.generate(days.length, (index) {
@@ -104,11 +134,90 @@ class _CreaCookieScreenState extends State<CreaCookieScreen> {
                     
                   ],
                 ),
-                const SizedBox(height: 20,),
+               
+                
+              ],
+            ),
+            const SizedBox(height: 20),
+             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Cocino solo...", style: TextStyle( fontSize: 18, fontWeight: FontWeight.bold),),
+                CheckboxListTile(
+                  title: const Text("Desayuno"),
+                  value: false,
+                  onChanged: (value) {},
+                ),
+                 const SizedBox(height: 8),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Hora del desayuno: ${_selectedTime.format(context)}",
+                  style: const TextStyle(fontSize: 16),
+                ),
+                ElevatedButton(
+                  onPressed: () => _selectTime(context),
+                  style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+                  child: const Text(
+                    "Seleccionar hora",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+                CheckboxListTile(
+                  title: const Text("Almuerzo"),
+                  value: false,
+                  onChanged: (value) {},
+                ),
+                 const SizedBox(height: 8),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Hora del Almuerzo: ${_selectedTime.format(context)}",
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => _selectTime(context),
+                      style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+                      child: const Text(
+                        "Seleccionar hora",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+                CheckboxListTile(
+                  title: const Text("Cena"),
+                  value: false,
+                  onChanged: (value) {},
+                ),
+                 const SizedBox(height: 8),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Hora de la Cena: ${_selectedTime.format(context)}",
+                  style: const TextStyle(fontSize: 16),
+                ),
+                ElevatedButton(
+                  onPressed: () => _selectTime(context),
+                  style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+                  child: const Text(
+                    "Seleccionar hora",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+              
+            ),
+            const SizedBox(height: 35),
+            Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Recetario..."),
+                    const Text("Recetario de la semana ...", style: TextStyle( fontSize: 18, fontWeight: FontWeight.bold),),
                     Wrap(
                       spacing: 8.0,
                       children: List.generate(days.length, (index) {
@@ -128,30 +237,8 @@ class _CreaCookieScreenState extends State<CreaCookieScreen> {
               ],
             ),
             const SizedBox(height: 35),
-             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Cocino solo...", style: TextStyle( fontSize: 18, fontWeight: FontWeight.bold),),
-                CheckboxListTile(
-                  title: const Text("Desayuno"),
-                  value: false,
-                  onChanged: (value) {},
-                ),
-                CheckboxListTile(
-                  title: const Text("Almuerzo"),
-                  value: false,
-                  onChanged: (value) {},
-                ),
-                CheckboxListTile(
-                  title: const Text("Cena"),
-                  value: false,
-                  onChanged: (value) {},
-                ),
-              ],
-            ),
-            const SizedBox(height: 35),
                 const Text(
-                  'Mi Recetas',
+                  'Mis Recetas del día',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                 ),
           
@@ -176,7 +263,7 @@ class _CreaCookieScreenState extends State<CreaCookieScreen> {
                     child: Text(
                       '+ Agregar otra Receta',
                       style: TextStyle(
-                        color: Colors.teal,
+                        color: AppColors.primary,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),

@@ -6,12 +6,14 @@ class RadioButtonGroup extends StatelessWidget {
   final List<String> options;
   final String selectedOption;
   final ValueChanged<String> onChanged;
+  final Color SelectColor;
 
   const RadioButtonGroup({
     required this.title,
     required this.options,
     required this.selectedOption,
     required this.onChanged,
+    required this.SelectColor,
     super.key});
 
   @override
@@ -34,7 +36,7 @@ class RadioButtonGroup extends StatelessWidget {
                   onChanged(value);
                 } 
               },
-              activeColor: AppColors.fourth,
+              activeColor: SelectColor,
               );
           },
         )

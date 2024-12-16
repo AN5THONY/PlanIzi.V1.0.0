@@ -44,7 +44,7 @@ class _CookieActivityState extends State<CookieActivityScreen> {
           'PlanIzi',
           style: TextStyle(
             fontSize: 50,
-            color: Colors.teal,
+            color: AppColors.primary,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -67,7 +67,7 @@ class _CookieActivityState extends State<CookieActivityScreen> {
                 const Row(
           
                   children: [
-                    Icon(Icons.add, color: Colors.teal, size: 50, ),
+                    Icon(Icons.add, color: AppColors.primary, size: 50, ),
                     SizedBox(width: 20),
                     Text(
                       'A COCINARRR!!!',
@@ -101,7 +101,7 @@ class _CookieActivityState extends State<CookieActivityScreen> {
                     child: Text(
                       '+ Agregar otra Receta',
                       style: TextStyle(
-                        color: Colors.teal,
+                        color: AppColors.primary,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),

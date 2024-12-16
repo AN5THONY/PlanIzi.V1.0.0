@@ -65,7 +65,7 @@ List<SpeedDialChild> getButtonData(BuildContext context) {
          Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => OrdiActivityScreen(),
+            builder: (context) => const OrdiActivityScreen(),
           ),
           
         );
@@ -123,7 +123,7 @@ List<SpeedDialChild> getButtonData(BuildContext context) {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
-      backgroundColor: AppColors.fifth,
+      backgroundColor: AppColors.sixth,
       onTap: () {
         Navigator.push(
           context,

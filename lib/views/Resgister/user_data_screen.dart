@@ -55,6 +55,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                       selectedTimeOption = value;
                     });
                   },
+                  SelectColor: AppColors.third,
                 ),
                 const SizedBox(height: 16),
                 // Campos de texto personalizados
@@ -86,6 +87,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                       selectedYS = value;
                     });
                   },
+                  SelectColor: AppColors.third,
                 ),
                 const SizedBox(height: 16),
                 // Dropdowns personalizados

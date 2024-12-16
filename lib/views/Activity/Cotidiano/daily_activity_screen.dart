@@ -37,7 +37,7 @@ class _DailyActivityScreenState extends State<DailyActivityScreen> {
           'PlanIzi',
           style: TextStyle(
             fontSize: 50,
-            color: Colors.teal,
+            color: AppColors.accent,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -60,7 +60,7 @@ class _DailyActivityScreenState extends State<DailyActivityScreen> {
                 const Row(
           
                   children: [
-                    Icon(Icons.add, color: Colors.teal, size: 50, ),
+                    Icon(Icons.add, color: AppColors.accent, size: 50, ),
                     SizedBox(width: 5),
                     Text(
                       'Mis actividades Cotidianas',
@@ -104,7 +104,7 @@ class _DailyActivityScreenState extends State<DailyActivityScreen> {
                     child: Text(
                       '+ Agregar otro trabajo',
                       style: TextStyle(
-                        color: Colors.teal,
+                        color: AppColors.accent,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),

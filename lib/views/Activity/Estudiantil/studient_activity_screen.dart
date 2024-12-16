@@ -20,11 +20,7 @@ class _StudientActivityScreenState extends State<StudientActivityScreen> {
     StudientData(nombre: 'Python'),
   ];
 
-   void _agregarstudient() {
-    setState(() {
-      studient.add(StudientData(nombre: 'Nueva actividad estudiantil'));
-    });
-  }
+
 
   void _eliminarstudient(int index) {
     setState(() {
@@ -42,7 +38,7 @@ class _StudientActivityScreenState extends State<StudientActivityScreen> {
           'PlanIzi',
           style: TextStyle(
             fontSize: 50,
-            color: Colors.teal,
+            color: AppColors.sixth,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -65,7 +61,7 @@ class _StudientActivityScreenState extends State<StudientActivityScreen> {
                 const Row(
           
                   children: [
-                    Icon(Icons.add, color: Colors.teal, size: 50, ),
+                    Icon(Icons.add, color: AppColors.sixth, size: 50, ),
                     SizedBox(width: 5),
                     Text(
                       'Mis actividades Estudiantiles',
@@ -102,14 +98,14 @@ class _StudientActivityScreenState extends State<StudientActivityScreen> {
                   onTap: (){
                        Navigator.push(
                   context,
-                   MaterialPageRoute(builder: (context) =>  const CreaStudientScreen()));
+                   MaterialPageRoute(builder: (context) =>   CreaStudientScreen()));
               
                   },
                   child: const Center(
                     child: Text(
                       '+ Agregar otra actividad estudiantil',
                       style: TextStyle(
-                        color: Colors.teal,
+                        color: AppColors.sixth,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),

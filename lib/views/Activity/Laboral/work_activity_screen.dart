@@ -34,7 +34,7 @@ class _WorkActivityScreenState extends State<WorkActivityScreen> {
           'PlanIzi',
           style: TextStyle(
             fontSize: 50,
-            color: Colors.teal,
+            color: AppColors.fifth,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -55,7 +55,7 @@ class _WorkActivityScreenState extends State<WorkActivityScreen> {
                 const Row(
           
                   children: [
-                    Icon(Icons.add, color: Colors.teal, size: 50, ),
+                    Icon(Icons.add, color: AppColors.fifth, size: 50, ),
                     SizedBox(width: 5),
                     Text(
                       'Mis actividades laborales',
@@ -98,7 +98,7 @@ class _WorkActivityScreenState extends State<WorkActivityScreen> {
                     child: Text(
                       '+ Agregar otro trabajo',
                       style: TextStyle(
-                        color: Colors.teal,
+                        color: AppColors.fifth,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -115,3 +115,24 @@ class _WorkActivityScreenState extends State<WorkActivityScreen> {
     );
   }
 }
+
+
+/* APUNTES PARA EL DIA
+const Text("Apuntes del día..."),
+            ElevatedButton(
+              onPressed: () async {
+                selectedDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                );
+                setState(() {});
+              },
+              child: Text(
+                  selectedDate == null ? "Seleccionar fecha" : "$selectedDate"),
+            ),
+            const SizedBox(height: 30),
+            CustomTextfield(
+              controller: lugarController,
+              labelText: 'Comentario....'), */

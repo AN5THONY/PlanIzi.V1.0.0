@@ -3,8 +3,29 @@ import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 
-class CreaCotiScreen extends StatelessWidget {
+class CreaCotiScreen extends StatefulWidget {
   const CreaCotiScreen({super.key});
+
+  @override
+  State<CreaCotiScreen> createState() => _CreaCotiScreenState();
+}
+
+class _CreaCotiScreenState extends State<CreaCotiScreen> {
+
+  TimeOfDay _selectedTime = TimeOfDay.now();
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime,
+      );
+    if (picked != null && picked != _selectedTime) {
+      setState(() {
+        _selectedTime = picked;
+      });
+    } 
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +37,7 @@ class CreaCotiScreen extends StatelessWidget {
           'PlanIzi',
           style: TextStyle(
             fontSize: 50,
-            color: Colors.teal,
+            color: AppColors.accent,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -26,8 +47,20 @@ class CreaCotiScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            const Text('+ Agregar actividades cotidianas', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.textPrimary),),
-            const SizedBox(height: 40),
+            const Row(
+          
+                  children: [
+                    Icon(Icons.add, color: AppColors.accent, size: 50, ),
+                    SizedBox(width: 5),
+                    Text(
+                      'Mis actividades Cotidianas',
+                      style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+          
+          
+                ),
+             const SizedBox(height: 40),
              CustomTextfield(
               controller: TextEditingController(),
               labelText: "Nombre de la actividad",
@@ -96,7 +129,7 @@ class CreaCotiScreen extends StatelessWidget {
 
             // Necesidades
             const Text(
-              "Necesito que me...",
+              "Necesito que ...",
               style: TextStyle(fontSize: 16),
             ),
             CheckboxListTile(
@@ -109,13 +142,14 @@ class CreaCotiScreen extends StatelessWidget {
               value: false,
               onChanged: (bool? value) {},
             ),
+            const Text('Gastaras tus carga premium', style: TextStyle(fontSize:15, color: AppColors.textSecondary)),
             CheckboxListTile(
               title: const Text("Sugerencias"),
               value: false,
               onChanged: (bool? value) {},
             ),
             const SizedBox(height: 20),
-
+ 
             // Sugerencias y Comentarios
             CustomTextfield(
               controller: TextEditingController(),
@@ -124,21 +158,46 @@ class CreaCotiScreen extends StatelessWidget {
               keyboardType: TextInputType.text,
             ),
             const SizedBox(height: 16),
+            
+             const Text(
+              "Selecciona la hora",
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Hora seleccionada: ${_selectedTime.format(context)}",
+                  style: const TextStyle(fontSize: 16),
+                ),
+                ElevatedButton(
+                  onPressed: () => _selectTime(context),
+                  style: ElevatedButton.styleFrom(backgroundColor: AppColors.accent),
+                  child: const Text(
+                    "Seleccionar hora",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
             CustomTextfield(
               controller: TextEditingController(),
               labelText: "Agrega comentario...",
               hintText: "Comentario...",
               keyboardType: TextInputType.text,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
 
             // Botón
             PrimaryButton(
-              text: "             Agregar curso           ",
+              text: "Agregar Actividad Cotidiana",
               onPressed: () {
                 // Acción al presionar
               },
-              color: Colors.teal,
+              color:AppColors.accent,
             ),
           ],
         ),

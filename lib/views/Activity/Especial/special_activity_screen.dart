@@ -20,12 +20,6 @@ class _SpecialActivityScreenState extends State<SpecialActivityScreen> {
     SpecialData(nombre: 'Visita en provincia'),
   ];
 
-   void _agregarspecial() {
-    setState(() {
-      special.add(SpecialData(nombre: 'Nueva actividad especial'));
-    });
-  }
-
   void _eliminarspecial(int index) {
     setState(() {
       special.removeAt(index);
@@ -42,7 +36,7 @@ class _SpecialActivityScreenState extends State<SpecialActivityScreen> {
           'PlanIzi',
           style: TextStyle(
             fontSize: 50,
-            color: Colors.teal,
+            color: AppColors.fourth,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -65,10 +59,10 @@ class _SpecialActivityScreenState extends State<SpecialActivityScreen> {
                 const Row(
           
                   children: [
-                    Icon(Icons.add, color: Colors.teal, size: 50, ),
+                    Icon(Icons.add, color: AppColors.fourth, size: 50, ),
                     SizedBox(width: 5),
                     Text(
-                      'Mis actividades especiales',
+                      'Mis actividades Extraordi',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -109,7 +103,7 @@ class _SpecialActivityScreenState extends State<SpecialActivityScreen> {
                     child: Text(
                       '+ Agregar otra actividad',
                       style: TextStyle(
-                        color: Colors.teal,
+                        color: AppColors.fourth,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),

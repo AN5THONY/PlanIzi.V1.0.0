@@ -2,27 +2,57 @@ import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/buttons/radio_button.dart';
-import 'package:plan_izi_v2/widgets/dropdown/custom_dropdown.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 
 
-// ignore: must_be_immutable
-class OrdiActivityScreen extends StatelessWidget {
+class OrdiActivityScreen extends StatefulWidget {
+  const OrdiActivityScreen({super.key});
+
+  @override
+  State<OrdiActivityScreen> createState() => _OrdiActivityScreenState();
+}
+
+class _OrdiActivityScreenState extends State<OrdiActivityScreen> {
   final TextEditingController activityNameController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
   final TextEditingController locationFromController = TextEditingController();
   final TextEditingController locationToController = TextEditingController();
   final TextEditingController suggestionController = TextEditingController();
 
-  String selectedActivityType;
-  String? selectedStarHour;
-  String? selectedEndHour;
+  String selectedActivityType = "Actividades anuales";
+  TimeOfDay? selectedStartHour;
+  TimeOfDay? selectedEndHour;
 
-   OrdiActivityScreen({
-     this.selectedActivityType = "Actividades anuales" ,
-     this.selectedStarHour,
-     this.selectedEndHour,
-    super.key});
+ 
+  Future<void> _selectTime(BuildContext context, bool isStartTime) async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        if (isStartTime) {
+          selectedStartHour = pickedTime;
+        } else {
+          selectedEndHour = pickedTime;
+        }
+      });
+    }
+  }
+
+  String _formatTime24(TimeOfDay? time) {
+    if (time == null) return "Selecciona...";
+    final String hour = time.hour.toString().padLeft(2, '0');
+    final String minute = time.minute.toString().padLeft(2, '0');
+    return "$hour:$minute";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +64,7 @@ class OrdiActivityScreen extends StatelessWidget {
           'PlanIzi',
           style: TextStyle(
             fontSize: 50,
-            color: Colors.teal,
+            color: AppColors.third,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -43,144 +73,157 @@ class OrdiActivityScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Container(
-          decoration: const BoxDecoration(color: AppColors.cardBackground,),  
+          decoration: const BoxDecoration(color: AppColors.cardBackground),
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("+ Agregar actividad", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-              
-              const SizedBox(height: 10,),
-              
+              const Row(
+                children: [
+                  Icon(Icons.add, color: AppColors.third, size: 50),
+                  SizedBox(width: 5),
+                  Text(
+                    'Agregar actividad',
+                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
               RadioButtonGroup(
-                title: '¿Qué tipo de actividad tienes?', 
+                title: '¿Qué tipo de actividad tienes?',
                 options: const [
                   "Actividad diaria",
                   "actividades mensuales",
                   "Actividades semanales",
                   "Actividades anuales",
-                ], 
+                ],
                 selectedOption: selectedActivityType,
-                onChanged: (value){
-                  selectedActivityType = value;
-                }),
-                const SizedBox(height: 16),
-
-                CustomTextfield(
+                onChanged: (value) {
+                  setState(() {
+                    selectedActivityType = value;
+                  });
+                },
+                SelectColor: AppColors.third,
+              ),
+              const SizedBox(height: 16),
+              CustomTextfield(
                 controller: activityNameController,
                 labelText: "Nombre de la actividad",
                 hintText: "Agregar actividad",
-                ),
-                const SizedBox(height: 16),
-                SwitchListTile(
-                    value: true,
-                    onChanged: (value) {},
-                    title: const Text('Tiempo de termino'),
-                    activeColor: AppColors.fourth,
+              ),
+              const SizedBox(height: 16),
+              SwitchListTile(
+                value: true,
+                onChanged: (value) {},
+                title: const Text('Duración del evento: ¿24 horas?'),
+                activeColor: AppColors.third,
+              ),
+              const SizedBox(height: 16),
+              // Selector de hora con TimePicker
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Comienza a las:",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => _selectTime(context, true),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.third),
+                          child: Text(
+                            _formatTime24(selectedStartHour),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                const SizedBox(height: 16),
-                 Row(
-                  children: [
-                    Expanded(
-                      child: CustomDropdown(
-                        hintText: "Comienza...",
-                        items: List.generate(24, (i) => "$i:00"),
-                        selectedItem: selectedStarHour,
-                        onChanged: (value) {
-                          selectedStarHour = value;
-                        },
-                      ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Termina a las:",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => _selectTime(context, false),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.third),
+                          child: Text(
+                            _formatTime24(selectedEndHour),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: CustomDropdown(
-                        hintText: "Termina...",
-                        items: List.generate(24, (i) => "$i:00"),
-                        selectedItem: selectedEndHour,
-                        onChanged: (value) {
-                        selectedEndHour = value;
-                        },
-                      ),
-                    )
-                  ],
-                ),
-
-                const SizedBox(height: 16),
-
-                CustomTextfield(
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              CustomTextfield(
                 controller: noteController,
-                labelText: "Descripción para la actividad",
-                hintText: "Agrega alguna nota...",
+                labelText: "Agrega comentario...",
+                hintText: "Comentario...",
                 keyboardType: TextInputType.multiline,
-                ),
-
-                 CheckboxListTile(
+              ),
+             
+              const SizedBox(height: 30),
+              
+              const Text('Necesito que ...'),
+              CheckboxListTile(
+                title: const Text("Notificar"),
+                value: true,
+                onChanged: (value) {},
+              ),
+              CheckboxListTile(
+                title: const Text("Timbrar"),
+                value: true,
+                onChanged: (value) {},
+              ),
+              const Text('Gastaras tu carga premium',
+                  style: TextStyle(fontSize: 15, color: AppColors.textSecondary)),
+               CheckboxListTile(
                 title: const Text("Ubicación"),
-                value: true, 
-                onChanged: (value) {
-                  // Manejar el cambio
-                },
-                ),
-
-                 Row(
-                  children: [
-                    Expanded(
-                      child: CustomTextfield(
-                        controller: locationFromController,
-                        labelText: "De...",
-                      ),
+                value: true,
+                onChanged: (value) {},
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomTextfield(
+                      controller: locationFromController,
+                      labelText: "De...",
                     ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: CustomTextfield(
-                        controller: locationToController,
-                        labelText: "A...",
-                      ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: CustomTextfield(
+                      controller: locationToController,
+                      labelText: "A...",
                     ),
-                  ],
-                 ),
-                 const SizedBox(height: 10,),
-                 const Text('Gastaras tus carga premium', style: TextStyle(fontSize:15, color: AppColors.textSecondary)),
-                 CheckboxListTile(
-                    title: const Text("Sugerencias"),
-                    value: true, 
-                    onChanged: (value) {
-                      // Manejar el cambio
-                    },
-                 ),
-                 CheckboxListTile(
-                    title: const Text("Notificar"),
-                    value: true, 
-                    onChanged: (value) {
-                      // Manejar el cambio
-                    },
-                 ),
-                 CheckboxListTile(
-                    title: const Text("Timbrar"),
-                    value: true, 
-                    onChanged: (value) {
-                      // Manejar el cambio
-                    },
-                 ),
-                 const Text('Gastaras tus carga premium', style: TextStyle(fontSize:15, color: AppColors.textSecondary)),
-
-                 CheckboxListTile(
-                    title: const Text("Urgente (sonará tres veces)"),
-                    value: true, 
-                    onChanged: (value) {
-                      // Manejar el cambio
-                    },
-                 ),
-                 PrimaryButton(
-                  text: '           Crear Actividad                 ', 
-                  onPressed: (){}, 
-                  color: AppColors.fourth)
-
+                  ),
+                ],
+              ),
+              CheckboxListTile(
+                title: const Text("Urgente (sonará hasta que lo desactives)"),
+                value: true,
+                onChanged: (value) {},
+              ),
+              PrimaryButton(
+                text: 'Agregar Actividad Ordinaria',
+                onPressed: () {},
+                color: AppColors.third,
+              )
             ],
           ),
         ),
       ),
-
     );
   }
 }
