@@ -8,7 +8,7 @@ class AppColors {
   static const Color accent = Color.fromARGB(255, 127, 175, 168); // Verde menta
   static const Color fourth = Color.fromARGB(255, 255, 68, 102); //Purpura 
   static const Color fifth = Color.fromARGB(255, 235, 200, 1); //Amarillo
-  static const Color sixth = Color.fromARGB(255, 199, 113, 0);  //Anaranjado
+  static const Color sixth = Color.fromARGB(255, 255, 171, 64);  //Anaranjado
   static const Color seventh = Color.fromARGB(255, 66, 187, 72);  //Verde 
 
   // Colores de fondo

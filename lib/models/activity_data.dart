@@ -2,6 +2,7 @@ class ActivityData {
   String? id;
   String title;
   String subtitle;
+  String place;
   String time;
   String details;
   bool isCompleted;
@@ -10,6 +11,7 @@ class ActivityData {
     required this.id,
     required this.title,
     required this.subtitle,
+    required this.place,
     required this.time,
     required this.details,
     this.isCompleted = false,
@@ -20,25 +22,28 @@ class ActivityData {
       ActivityData(
         id: '1',
         title: 'Reunión de trabajo',
-        subtitle: 'Llamada con el equipo',
+        subtitle: 'Preparar reporte mensual',
         time: '10:00 AM',
-        details: 'Preparar reporte mensual',
+        place: 'Oficina',
+        details: 'Virtual',
         isCompleted: false,
       ),
       ActivityData(
         id: '2',
         title: 'Gimnasio',
-        subtitle: 'Entrenamiento personal',
+        subtitle: 'Brazos y Pecho',
         time: '6:00 PM',
-        details: 'Cardio y pesas',
+        details: 'Smart Fit',
+        place: 'Mall de comas',
         isCompleted: false,
       ),
       ActivityData(
         id: '3',
         title: 'Leer un libro',
-        subtitle: 'Ficción y desarrollo personal',
+        subtitle: 'Terminar el capítulo 5',
         time: '8:00 PM',
-        details: 'Terminar el capítulo 5',
+        details: '',
+        place: '',
         isCompleted: true,
       ),
     ];

@@ -76,12 +76,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
               Expanded(child: ListView(
                 children: [
                   for (ActivityData activity in activityList)
-                          ActivityView(
-                            activity: activity,
-                            onPostpone: () => _postponeActivity(activity.id!),
-                            onComplete: () => _completeActivity(activity.id!),
-                            onDelete: () => _deleteActivity(activity.id!),
-                          ),
+                          ActivityView(activity: activity, onDelete: () {
+                            
+                          },)
                   ],
                 )
               ),

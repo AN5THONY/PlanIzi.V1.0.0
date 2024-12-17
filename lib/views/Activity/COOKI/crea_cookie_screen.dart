@@ -256,7 +256,7 @@ class _CreaCookieScreenState extends State<CreaCookieScreen> {
                   onTap: (){
                    Navigator.push(context,
                       MaterialPageRoute(
-                            builder: (context) => EditCookie()),
+                            builder: (context) => const EditCookie()),
                       );
                   },
                   child: const Center(

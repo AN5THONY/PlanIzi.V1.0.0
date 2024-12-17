@@ -44,12 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     for (ActivityData activity in activityList)
-                      ActivityView(
-                        activity: activity,
-                        onPostpone: () => _postponeActivity(activity.id!),
-                        onComplete: () => _completeActivity(activity.id!),
-                        onDelete: () => _deleteActivity(activity.id!),
-                      ),
+                      ActivityView(activity: activity, onDelete: () {
+                        
+                      },)
                   ],
                 ),
               )
@@ -60,23 +57,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _postponeActivity(String id) {
-    setState(() {
-      final activity = activityList.firstWhere((element) => element.id == id);
-      activity.time = "Pospuesta a más tarde";
-    });
-  }
-
-  void _completeActivity(String id) {
-    setState(() {
-      final activity = activityList.firstWhere((element) => element.id == id);
-      activity.isCompleted = true;
-    });
-  }
-
-  void _deleteActivity(String id) {
-    setState(() {
-      activityList.removeWhere((activity) => activity.id == id);
-    });
-  }
 }

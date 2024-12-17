@@ -4,7 +4,7 @@ import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 
 class CreaStudientScreen extends StatefulWidget {
-  CreaStudientScreen({super.key});
+  const CreaStudientScreen({super.key});
 
   @override
   State<CreaStudientScreen> createState() => _CreaStudientScreenState();
