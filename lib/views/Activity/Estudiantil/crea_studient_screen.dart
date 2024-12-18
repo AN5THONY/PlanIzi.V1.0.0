@@ -56,7 +56,7 @@ class _CreaStudientScreenState extends State<CreaStudientScreen> {
       }
 
       final Map<String, dynamic> courseData = {
-        "nombreCurso": nombreCursoController.text,
+        "nombreActividad": nombreCursoController.text,
         "esVirtual": isVirtual,
         "esPresencial": isPresencial,
         "lugar": lugarController.text,

@@ -101,7 +101,7 @@ class _StudientActivityScreenState extends State<StudientActivityScreen> {
                       ...activities.map((activity) {
                         return StudientItem(
                           studient: StudientData(
-                              nombre: activity["nombreCurso"] ??
+                              nombre: activity["nombreActividad"] ??
                                   "Curso sin nombre"),
                           onDelete: () {
                             // logicas para eliminar la actividad

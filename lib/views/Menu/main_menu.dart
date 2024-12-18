@@ -18,10 +18,7 @@ class MainMenu extends StatefulWidget {
 
 class _MainMenuState extends State<MainMenu> {
 
-
   final user=FirebaseAuth.instance.currentUser;
-
-
   signout()async{
     await FirebaseAuth.instance.signOut();
   }

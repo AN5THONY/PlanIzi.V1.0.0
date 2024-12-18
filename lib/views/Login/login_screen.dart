@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:plan_izi_v2/views/Login/estado_usuario.dart';
 import 'package:plan_izi_v2/services/user_service.dart';
 
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
