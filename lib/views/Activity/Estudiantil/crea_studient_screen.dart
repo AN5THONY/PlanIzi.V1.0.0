@@ -19,7 +19,8 @@ class _CreaStudientScreenState extends State<CreaStudientScreen> {
   List<TimeOfDay?> endTimes = List.filled(7, null);
 
   // Método para mostrar selector de hora
-  Future<void> _selectTime(BuildContext context, int index, bool isStart) async {
+  Future<void> _selectTime(
+      BuildContext context, int index, bool isStart) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
@@ -106,17 +107,23 @@ class _CreaStudientScreenState extends State<CreaStudientScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(days[index], style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                        Text(days[index],
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
                         Row(
                           children: [
                             ElevatedButton(
-                              onPressed: () => _selectTime(context, index, true),
-                              child: Text(startTimes[index]?.format(context) ?? "Comienza"),
+                              onPressed: () =>
+                                  _selectTime(context, index, true),
+                              child: Text(startTimes[index]?.format(context) ??
+                                  "Comienza"),
                             ),
                             const SizedBox(width: 10),
                             ElevatedButton(
-                              onPressed: () => _selectTime(context, index, false),
-                              child: Text(endTimes[index]?.format(context) ?? "Termina"),
+                              onPressed: () =>
+                                  _selectTime(context, index, false),
+                              child: Text(endTimes[index]?.format(context) ??
+                                  "Termina"),
                             ),
                           ],
                         ),

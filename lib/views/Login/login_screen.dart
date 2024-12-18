@@ -8,6 +8,7 @@ import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 import 'package:plan_izi_v2/views/Menu/main_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:plan_izi_v2/views/Login/estado_usuario.dart';
+import 'package:plan_izi_v2/services/user_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,28 +22,33 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
 
   // LOGIN
-  signIn() async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Inicio de sesión exitoso")),
-        );
-      }
-    } on FirebaseAuthException {
-      String errorMessage =
-          'Hubo un problema al intentar iniciar sesión. Intenta nuevamente.';
+signIn() async {
+  try {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
-        );
-      }
+    // Sincronizar los datos del usuario con Firestore
+    await UserService().syncUserWithFirestore();
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Inicio de sesión exitoso")),
+      );
+    }
+  } on FirebaseAuthException {
+    String errorMessage =
+        'Hubo un problema al intentar iniciar sesión. Intenta nuevamente.';
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
     }
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

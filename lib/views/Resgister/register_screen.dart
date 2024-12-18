@@ -7,6 +7,7 @@ import 'package:plan_izi_v2/views/Recovery/recovery_screen.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/dropdown/custom_dropdown.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
+import 'package:plan_izi_v2/services/user_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -34,43 +35,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
   DateTime? selectedDate;
 
   //REGISTRO
-  signup() async {
-    try {
-      // register
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
+signup() async {
+  try {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+
+    // Llamar a la función para sincronizar al usuario con Firestore
+    await UserService().syncUserWithFirestore();
+    await FirebaseAuth.instance.signOut();
+
+    if (mounted) {
+      // suxesfulll
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Usuario creado exitosamente")),
       );
-      // desloguear usuario
-      await FirebaseAuth.instance.signOut();
-      if (mounted) {
-        // suxesfulll
+      // redirigir al LoginScreen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    }
+  } on FirebaseAuthException catch (e) {
+    // Manejo de errores de Firebase
+    if (mounted) {
+      if (e.code == 'email-already-in-use') {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Usuario creado exitosamente")),
+          const SnackBar(
+            content: Text("El correo ya está en uso. Por favor usa otro."),
+          ),
         );
-        // redirigir
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: ${e.message}")),
         );
-      }
-    } on FirebaseAuthException catch (e) {
-      // error
-      if (mounted) {
-        if (e.code == 'email-already-in-use') {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("El correo ya está en uso. Por favor usa otro."),
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Error: ${e.message}")),
-          );
-        }
       }
     }
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

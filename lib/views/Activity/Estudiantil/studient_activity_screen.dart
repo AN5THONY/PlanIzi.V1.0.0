@@ -5,7 +5,6 @@ import 'package:plan_izi_v2/views/Activity/Estudiantil/crea_studient_screen.dart
 import 'package:plan_izi_v2/widgets/Publicidad/espacio_publi.dart';
 import 'package:plan_izi_v2/widgets/StudientActivity/a_studient.dart';
 
-
 class StudientActivityScreen extends StatefulWidget {
   const StudientActivityScreen({super.key});
 
@@ -14,13 +13,11 @@ class StudientActivityScreen extends StatefulWidget {
 }
 
 class _StudientActivityScreenState extends State<StudientActivityScreen> {
-   final List<StudientData> studient = [
+  final List<StudientData> studient = [
     StudientData(nombre: 'Universidad'),
     StudientData(nombre: 'IPNA'),
     StudientData(nombre: 'Python'),
   ];
-
-
 
   void _eliminarstudient(int index) {
     setState(() {
@@ -30,7 +27,7 @@ class _StudientActivityScreenState extends State<StudientActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -48,36 +45,35 @@ class _StudientActivityScreenState extends State<StudientActivityScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 20),
           margin: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
-          decoration: const BoxDecoration( color: AppColors.cardBackground),
+          decoration: const BoxDecoration(color: AppColors.cardBackground),
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                
-                const SizedBox(height: 30,),
-          
+                const SizedBox(
+                  height: 30,
+                ),
                 const Row(
-          
                   children: [
-                    Icon(Icons.add, color: AppColors.sixth, size: 50, ),
+                    Icon(
+                      Icons.add,
+                      color: AppColors.sixth,
+                      size: 50,
+                    ),
                     SizedBox(width: 5),
                     Text(
                       'Mis actividades Estudiantiles',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                   ],
-          
-          
                 ),
                 const SizedBox(height: 40),
-          
                 const Text(
                   'Mis estudios',
                   style: TextStyle(fontSize: 16, color: AppColors.textPrimary),
                 ),
-          
                 const SizedBox(height: 35),
                 ...studient.asMap().entries.map((entry) {
                   int index = entry.key;
@@ -87,19 +83,15 @@ class _StudientActivityScreenState extends State<StudientActivityScreen> {
                     onDelete: () => _eliminarstudient(index),
                   );
                 }),
-          
                 const SizedBox(height: 30),
-                
                 const Center(child: EspacioPublicidad()),
-                
                 const SizedBox(height: 30),
-                
                 GestureDetector(
-                  onTap: (){
-                       Navigator.push(
-                  context,
-                   MaterialPageRoute(builder: (context) =>   CreaStudientScreen()));
-              
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreaStudientScreen()));
                   },
                   child: const Center(
                     child: Text(
@@ -112,8 +104,6 @@ class _StudientActivityScreenState extends State<StudientActivityScreen> {
                     ),
                   ),
                 ),
-              
-              
               ],
             ),
           ),
