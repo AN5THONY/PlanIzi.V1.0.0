@@ -5,16 +5,37 @@ import 'package:plan_izi_v2/views/Login/login_screen.dart';
 import 'package:plan_izi_v2/views/Resgister/register_screen.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
+import 'package:plan_izi_v2/views/Recovery/recovery_confirmation_screen.dart';
 
-class RecoveryScreen extends StatelessWidget {
+class RecoveryScreen extends StatefulWidget {
+  const RecoveryScreen({super.key});
+
+  @override
+  _RecoveryScreenState createState() => _RecoveryScreenState();
+}
+
+class _RecoveryScreenState extends State<RecoveryScreen> {
   final TextEditingController emailController = TextEditingController();
 
-  RecoveryScreen({super.key});
-
-  //RECUPERAR
+  // RECUPERAR
   reset() async {
-    await FirebaseAuth.instance
-        .sendPasswordResetEmail(email: emailController.text);
+    try {
+      // reset correo
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text);
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => RecoveryConfirmationScreen()),
+        );
+      }
+    } catch (e) {
+      // error
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Hubo un problema: ${e.toString()}')),
+        );
+      }
+    }
   }
 
   @override

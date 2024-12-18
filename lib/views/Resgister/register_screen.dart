@@ -36,20 +36,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
   //REGISTRO
   signup() async {
     try {
+      // register
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
+      // desloguear usuario
+      await FirebaseAuth.instance.signOut();
       if (mounted) {
+        // suxesfulll
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Usuario creado exitosamente")),
         );
+        // redirigir
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const LoginScreen()),
         );
       }
     } on FirebaseAuthException catch (e) {
+      // error
       if (mounted) {
         if (e.code == 'email-already-in-use') {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -73,7 +79,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
-            // Se agrega el SingleChildScrollView
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -130,8 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(1950),
-                          lastDate:
-                              DateTime.now(), // Cambié timestamp() por now()
+                          lastDate: DateTime.now(),
                         );
                         setState(() {});
                       },
@@ -183,7 +187,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RecoveryScreen(),
+                        builder: (context) => const RecoveryScreen(),
                       ),
                     );
                   },

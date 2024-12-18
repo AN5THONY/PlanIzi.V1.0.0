@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
-import 'package:plan_izi_v2/views/Login/wrapper.dart';
+import 'package:plan_izi_v2/views/Login/login_screen.dart';
+import 'package:plan_izi_v2/views/Menu/main_menu.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => EstadoUsuario(),  // Inicia el AuthProvider
+      create: (_) => EstadoUsuario(),
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'PlanIzi',
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: AppColors.cardBackground,
           appBarTheme: const AppBarTheme(
             backgroundColor: AppColors.primary,
-            titleTextStyle: TextStyle( 
+            titleTextStyle: TextStyle(
               color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -37,8 +38,24 @@ class MyApp extends StatelessWidget {
             backgroundColor: AppColors.accent,
           ),
         ),
-        home: const Wrapper(),
+        home: const AuthHandler(),
       ),
     );
+  }
+}
+
+class AuthHandler extends StatelessWidget {
+  const AuthHandler({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final estadoUsuario = Provider.of<EstadoUsuario>(context);
+
+    // escoge la pantalla
+    if (estadoUsuario.isLoggedIn) {
+      return const MainMenu();
+    } else {
+      return const LoginScreen();
+    }
   }
 }

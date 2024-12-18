@@ -5,13 +5,14 @@ import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/plu_primium.dart';
 import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/sus_primium.dart';
 import 'package:provider/provider.dart';
 import 'package:plan_izi_v2/views/Login/estado_usuario.dart';
+import 'package:plan_izi_v2/views/Login/login_screen.dart';
 
 class OptionsScreen extends StatelessWidget {
   const OptionsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Obtén el estado del usuario desde el AuthProvider
+    // estado usuario
     final user = Provider.of<EstadoUsuario>(context).user;
 
     return SingleChildScrollView(
@@ -23,7 +24,7 @@ class OptionsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              //Perfil
+              // Perfil
               const Center(
                 child: Text(
                   'Etiqueta (Estudiante o Labor)',
@@ -124,6 +125,36 @@ class OptionsScreen extends StatelessWidget {
               const Divider(
                   height: 30, thickness: 2, color: AppColors.background),
               // CERRAR SESIÓN
+              ListTile(
+                leading:
+                    const Icon(Icons.logout, size: 30, color: AppColors.error),
+                title: const Text('Cerrar Sesión y salir',
+                    style: TextStyle(color: AppColors.error)),
+                trailing: const Icon(Icons.arrow_forward_ios,
+                    size: 25, color: AppColors.error),
+                onTap: () async {
+                  try {
+                    await context.read<EstadoUsuario>().signOut();
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text("Sesión cerrada exitosamente")),
+                      );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()),
+                      );
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Error al cerrar sesión')),
+                      );
+                    }
+                  }
+                },
+              ),
             ],
           ),
         ),
@@ -205,33 +236,6 @@ class FooterSection extends StatelessWidget {
             ),
           ),
           const Divider(height: 30, thickness: 2, color: AppColors.background),
-          ListTile(
-            leading: const Icon(Icons.logout, size: 30, color: AppColors.error),
-            title: const Text('Cerrar Sesión y salir',
-                style: TextStyle(color: AppColors.error)),
-            trailing: const Icon(Icons.arrow_forward_ios,
-                size: 25, color: AppColors.error),
-            onTap: () async {
-              try {
-                await context
-                    .read<EstadoUsuario>()
-                    .signOut();
-
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text("Sesión cerrada exitosamente")),
-                  );
-                }
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Error al cerrar sesión')),
-                  );
-                }
-              }
-            },
-          ),
         ],
       ),
     );
