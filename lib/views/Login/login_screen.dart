@@ -24,23 +24,35 @@ class _LoginScreenState extends State<LoginScreen> {
   // LOGIN
 signIn() async {
   try {
+    // iniciar sesio
     await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text.trim(),
       password: passwordController.text.trim(),
     );
 
-    // Sincronizar los datos del usuario con Firestore
-    await UserService().syncUserWithFirestore();
+    // Obtener usuario actual
+    User? user = FirebaseAuth.instance.currentUser;
 
+    if (user != null) {
+      // sincronizar los datos del usuario con Firestore
+      await UserService().syncUserWithFirestore(
+        user.displayName ?? '',   // nombre
+        user.email ?? '',         // email
+        user.uid,                 // UID del usuario
+        DateTime.now(),           // fecha
+        'No definido',            // genero
+      );
+    }
+
+    // suxesfull
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Inicio de sesión exitoso")),
       );
     }
-  } on FirebaseAuthException {
-    String errorMessage =
-        'Hubo un problema al intentar iniciar sesión. Intenta nuevamente.';
-
+  } on FirebaseAuthException catch (e) {
+    // error
+    String errorMessage = e.message ?? 'Hubo un problema al intentar iniciar sesión. Intenta nuevamente.';
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(errorMessage)),
@@ -48,6 +60,7 @@ signIn() async {
     }
   }
 }
+
 
 
   @override

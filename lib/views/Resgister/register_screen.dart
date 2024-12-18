@@ -18,63 +18,68 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController nameController = TextEditingController();
-
   final TextEditingController lastNameController = TextEditingController();
-
   final TextEditingController emailController = TextEditingController(); //email
-
   final TextEditingController passwordController =
       TextEditingController(); //password
-
   final TextEditingController confirmController = TextEditingController();
 
   final List<String> ageoptions = List.generate(100, (index) => "${index + 1}");
-
   final List<String> genderOptions = ["Masculino", "Femenino", "Otro genero"];
 
   DateTime? selectedDate;
+  String? selectedGender;
 
   //REGISTRO
-signup() async {
-  try {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: emailController.text,
-      password: passwordController.text,
-    );
-
-    // Llamar a la función para sincronizar al usuario con Firestore
-    await UserService().syncUserWithFirestore();
-    await FirebaseAuth.instance.signOut();
-
-    if (mounted) {
-      // suxesfulll
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Usuario creado exitosamente")),
+  signup() async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
       );
-      // redirigir al LoginScreen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
-    }
-  } on FirebaseAuthException catch (e) {
-    // Manejo de errores de Firebase
-    if (mounted) {
-      if (e.code == 'email-already-in-use') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("El correo ya está en uso. Por favor usa otro."),
-          ),
+      User? user = userCredential.user;
+      // sincronizar usuario
+      if (user != null) {
+        await UserService().syncUserWithFirestore(
+          nameController.text,
+          lastNameController.text,
+          emailController.text,
+          selectedDate,
+          selectedGender ?? 'Otro genero',
         );
-      } else {
+      }
+
+      // desloguear
+      await FirebaseAuth.instance.signOut();
+
+      if (mounted) {
+        // suxsfulll
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error: ${e.message}")),
+          const SnackBar(content: Text("Usuario creado exitosamente")),
         );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      // error
+      if (mounted) {
+        if (e.code == 'email-already-in-use') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("El correo ya está en uso. Por favor usa otro."),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Error: ${e.message}")),
+          );
+        }
       }
     }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -151,10 +156,18 @@ signup() async {
                     )
                   ],
                 ),
-                CustomDropdown(hintText: "Género", items: genderOptions),
+                // Actualización del dropdown para capturar el género
+                CustomDropdown(
+                  hintText: "Género",
+                  items: genderOptions,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedGender = value; // Asigna el género seleccionado
+                    });
+                  },
+                ),
                 const SizedBox(height: 10),
                 CustomTextfield(
-                  //password
                   controller: passwordController,
                   labelText: 'Establece tu contraseña',
                   hintText: 'Tu contraseña',
@@ -168,7 +181,7 @@ signup() async {
                 ),
                 const SizedBox(height: 40),
                 PrimaryButton(
-                  text: '                    Contuinar                     ',
+                  text: '                    Continuar                     ',
                   onPressed: () {
                     signup();
                   },

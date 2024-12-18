@@ -5,19 +5,29 @@ class UserService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> syncUserWithFirestore() async {
+  // aceptar todos los datos
+  Future<void> syncUserWithFirestore(
+    String name,
+    String lastName,
+    String email,
+    DateTime? birthDate,
+    String gender,
+  ) async {
     final user = _auth.currentUser;
     if (user == null) return;
 
     final userDoc = _firestore.collection('users').doc(user.uid);
 
-    // Verifica si el usuario ya está en Firestore
+    // verificar usuario
     final docSnapshot = await userDoc.get();
     if (!docSnapshot.exists) {
-      // Si no existe, crea el documento
+      // si no existe, se crea
       await userDoc.set({
-        'name': user.displayName ?? 'Usuario sin nombre',
-        'email': user.email,
+        'name': name,
+        'lastName': lastName,
+        'email': email,
+        'birthDate': birthDate,
+        'gender': gender,
         'createdAt': FieldValue.serverTimestamp(),
       });
     }
