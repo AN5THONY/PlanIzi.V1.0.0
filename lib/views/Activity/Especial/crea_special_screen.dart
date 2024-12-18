@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
-
 
 class CreaSpecialScreen extends StatefulWidget {
   const CreaSpecialScreen({super.key});
@@ -16,13 +17,15 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
   final TextEditingController noteController = TextEditingController();
   final TextEditingController locationFromController = TextEditingController();
   final TextEditingController locationToController = TextEditingController();
-  final TextEditingController suggestionController = TextEditingController();
 
-  String selectedActivityType = "Actividades anuales";
   TimeOfDay? selectedStartHour;
   TimeOfDay? selectedEndHour;
+  bool is24HourDuration = false;
+  bool isNotificationEnabled = false;
+  bool isSoundEnabled = false;
+  bool isLocationEnabled = false;
+  bool isUrgent = false;
 
- 
   Future<void> _selectTime(BuildContext context, bool isStartTime) async {
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
@@ -51,6 +54,49 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
     final String hour = time.hour.toString().padLeft(2, '0');
     final String minute = time.minute.toString().padLeft(2, '0');
     return "$hour:$minute";
+  }
+
+  Future<void> _saveActivity() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) {
+        throw Exception("Usuario no autenticado.");
+      }
+
+      final Map<String, dynamic> activityData = {
+        "nombreActividad": activityNameController.text,
+        "duracion24Horas": is24HourDuration,
+        "horaInicio": _formatTime24(selectedStartHour),
+        "horaFin": _formatTime24(selectedEndHour),
+        "comentario": noteController.text,
+        "notificar": isNotificationEnabled,
+        "timbrar": isSoundEnabled,
+        "ubicacionDe": locationFromController.text,
+        "ubicacionA": locationToController.text,
+        "urgente": isUrgent,
+        "tipo": "especial",
+        "timestamp": FieldValue.serverTimestamp(),
+      };
+
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(user.uid)
+          .collection("actividades")
+          .add(activityData);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Actividad guardada exitosamente")),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error al guardar la actividad: $e")),
+        );
+      }
+    }
   }
 
   @override
@@ -87,8 +133,6 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
                   ),
                 ],
               ),
-              
-              
               const SizedBox(height: 16),
               CustomTextfield(
                 controller: activityNameController,
@@ -97,13 +141,16 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
               ),
               const SizedBox(height: 16),
               SwitchListTile(
-                value: true,
-                onChanged: (value) {},
+                value: is24HourDuration,
+                onChanged: (value) {
+                  setState(() {
+                    is24HourDuration = value;
+                  });
+                },
                 title: const Text('Duración del evento: ¿24 horas?'),
                 activeColor: AppColors.fourth,
               ),
               const SizedBox(height: 16),
-              // Selector de hora con TimePicker
               Row(
                 children: [
                   Expanded(
@@ -156,26 +203,33 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
                 hintText: "Comentario...",
                 keyboardType: TextInputType.multiline,
               ),
-             
               const SizedBox(height: 20),
-              
-              const Text('Necesito que ...'),
               CheckboxListTile(
                 title: const Text("Notificar"),
-                value: true,
-                onChanged: (value) {},
+                value: isNotificationEnabled,
+                onChanged: (value) {
+                  setState(() {
+                    isNotificationEnabled = value ?? false;
+                  });
+                },
               ),
               CheckboxListTile(
                 title: const Text("Timbrar"),
-                value: true,
-                onChanged: (value) {},
+                value: isSoundEnabled,
+                onChanged: (value) {
+                  setState(() {
+                    isSoundEnabled = value ?? false;
+                  });
+                },
               ),
-              const Text('Gastaras tu carga premium',
-                  style: TextStyle(fontSize: 15, color: AppColors.textSecondary)),
-               CheckboxListTile(
+              CheckboxListTile(
                 title: const Text("Ubicación"),
-                value: true,
-                onChanged: (value) {},
+                value: isLocationEnabled,
+                onChanged: (value) {
+                  setState(() {
+                    isLocationEnabled = value ?? false;
+                  });
+                },
               ),
               Row(
                 children: [
@@ -196,13 +250,17 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
               ),
               CheckboxListTile(
                 title: const Text("Urgente (sonará hasta que lo desactives)"),
-                value: true,
-                onChanged: (value) {},
+                value: isUrgent,
+                onChanged: (value) {
+                  setState(() {
+                    isUrgent = value ?? false;
+                  });
+                },
               ),
               Center(
                 child: PrimaryButton(
-                  text: 'Agregar Actividad Extraordi',
-                  onPressed: () {},
+                  text: 'Agregar Actividad Extraordinaria',
+                  onPressed: _saveActivity,
                   color: AppColors.fourth,
                 ),
               )

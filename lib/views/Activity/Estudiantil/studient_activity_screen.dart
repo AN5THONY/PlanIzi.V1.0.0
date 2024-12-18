@@ -58,12 +58,6 @@ class _StudientActivityScreenState extends State<StudientActivityScreen> {
           }
 
           final activities = snapshot.data ?? [];
-          if (activities.isEmpty) {
-            return const Center(
-              child: Text("No tienes actividades estudiantiles."),
-            );
-          }
-
           return SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 20),
@@ -97,27 +91,34 @@ class _StudientActivityScreenState extends State<StudientActivityScreen> {
                           TextStyle(fontSize: 16, color: AppColors.textPrimary),
                     ),
                     const SizedBox(height: 35),
-
-                    // mostrar actividades obtenidas de la base de datos
-                    ...activities.map((activity) {
-                      return StudientItem(
-                        studient: StudientData(nombre: activity["nombreCurso"]),
-                        onDelete: () {
-                          // logica para eliminat la actividad
-                        },
-                      );
-                    }),
-
+                    // mostrar si no hay actividades
+                    if (activities.isEmpty)
+                      const Center(
+                        child: Text("No tienes actividades estudiantiles."),
+                      ),
+                    // mostrars si hay
+                    if (activities.isNotEmpty)
+                      ...activities.map((activity) {
+                        return StudientItem(
+                          studient: StudientData(
+                              nombre: activity["nombreCurso"] ??
+                                  "Curso sin nombre"),
+                          onDelete: () {
+                            // logicas para eliminar la actividad
+                          },
+                        );
+                      }),
                     const SizedBox(height: 30),
                     const Center(child: EspacioPublicidad()),
                     const SizedBox(height: 30),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const CreaStudientScreen()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CreaStudientScreen(),
+                          ),
+                        );
                       },
                       child: const Center(
                         child: Text(

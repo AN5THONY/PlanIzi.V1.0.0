@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:plan_izi_v2/models/special_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
-import 'package:plan_izi_v2/views/Activity/Especial/crea_special_screen.dart';
 import 'package:plan_izi_v2/widgets/Publicidad/espacio_publi.dart';
 import 'package:plan_izi_v2/widgets/SpecialActivity/a_special.dart';
-
+import 'package:plan_izi_v2/models/special_data.dart';
+import 'package:plan_izi_v2/views/Activity/Especial/crea_special_screen.dart';
 
 class SpecialActivityScreen extends StatefulWidget {
   const SpecialActivityScreen({super.key});
@@ -14,21 +15,23 @@ class SpecialActivityScreen extends StatefulWidget {
 }
 
 class _SpecialActivityScreenState extends State<SpecialActivityScreen> {
-   final List<SpecialData> special = [
-    SpecialData(nombre: 'Cumpleaños de mamá'),
-    SpecialData(nombre: 'Titulación'),
-    SpecialData(nombre: 'Visita en provincia'),
-  ];
+  Future<List<Map<String, dynamic>>> _fetchSpecialActivities() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception("Usuario no autenticado.");
 
-  void _eliminarspecial(int index) {
-    setState(() {
-      special.removeAt(index);
-    });
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.uid)
+        .collection("actividades")
+        .where("tipo", isEqualTo: "especial") // filtrar por tipo
+        .get();
+
+    return querySnapshot.docs.map((doc) => doc.data()).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -42,80 +45,97 @@ class _SpecialActivityScreenState extends State<SpecialActivityScreen> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          margin: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
-          decoration: const BoxDecoration( color: AppColors.cardBackground),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: _fetchSpecialActivities(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text("Error al cargar actividades: ${snapshot.error}"),
+            );
+          }
 
-                
-                const SizedBox(height: 30,),
-          
-                const Row(
-          
+          final activities = snapshot.data ?? [];
+          return SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              margin: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+              decoration: const BoxDecoration(color: AppColors.cardBackground),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.add, color: AppColors.fourth, size: 50, ),
-                    SizedBox(width: 5),
-                    Text(
-                      'Mis actividades Extraordi',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    const SizedBox(height: 30),
+                    const Row(
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: AppColors.fourth,
+                          size: 50,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          'Mis actividades Especiales',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
-                  ],
-          
-          
-                ),
-                const SizedBox(height: 40),
-          
-                const Text(
-                  'Mis actividades',
-                  style: TextStyle(fontSize: 16, color: AppColors.textPrimary),
-                ),
-          
-                const SizedBox(height: 35),
-                ...special.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  SpecialData special = entry.value;
-                  return SpecialItem(
-                    special: special,
-                    onDelete: () => _eliminarspecial(index),
-                  );
-                }),
-          
-                const SizedBox(height: 30),
-                
-                const Center(child: EspacioPublicidad()),
-                
-                const SizedBox(height: 30),
-                
-                GestureDetector(
-                  onTap: () {
-                      Navigator.push(
-                  context,
-                   MaterialPageRoute(builder: (context) =>  const CreaSpecialScreen()));
-              
-                  },
-                  child: const Center(
-                    child: Text(
-                      '+ Agregar otra actividad',
-                      style: TextStyle(
-                        color: AppColors.fourth,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    const SizedBox(height: 40),
+                    const Text(
+                      'Mis actividades especiales',
+                      style:
+                          TextStyle(fontSize: 16, color: AppColors.textPrimary),
+                    ),
+                    const SizedBox(height: 35),
+                    // mostrar si no hay actividades
+                    if (activities.isEmpty)
+                      const Center(
+                        child: Text("No tienes actividades especiales."),
+                      ),
+                    // mostrar si hay 
+                    if (activities.isNotEmpty)
+                      ...activities.map((activity) {
+                        return SpecialItem(
+                          special: SpecialData(
+                              nombre: activity["nombreActividad"] ??
+                                  "Actividad sin nombre"),
+                          onDelete: () {
+                            // logica pars eliminar la actividad
+                          },
+                        );
+                      }),
+                    const SizedBox(height: 30),
+                    const Center(child: EspacioPublicidad()),
+                    const SizedBox(height: 30),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CreaSpecialScreen()),
+                        );
+                      },
+                      child: const Center(
+                        child: Text(
+                          '+ Agregar otra actividad especial',
+                          style: TextStyle(
+                            color: AppColors.fourth,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              
-              
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
