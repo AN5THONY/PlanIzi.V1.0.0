@@ -51,7 +51,7 @@ class AuthHandler extends StatelessWidget {
   Widget build(BuildContext context) {
     final estadoUsuario = Provider.of<EstadoUsuario>(context);
 
-    // escoge la pantalla
+    // escoge la pantallaa
     if (estadoUsuario.isLoggedIn) {
       return const MainMenu();
     } else {
