@@ -183,8 +183,8 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
                       selectedDate = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
-                        firstDate: DateTime(1950),
-                        lastDate: DateTime(2100),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2080),
                       );
                       setState(() {});
                     },
@@ -197,7 +197,7 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
                   const SizedBox(width: 40),
                   selectedDate == null
                       ? const Text(
-                          'Seleccione el dia: ',
+                          '',
                           style: TextStyle(fontSize: 16, color: AppColors.textPrimary),
                         )
                       : Text(
@@ -325,7 +325,7 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
               ),
               Center(
                 child: PrimaryButton(
-                  text: 'Agregar Actividad Extraordinaria',
+                  text: 'Agregar Actividad Extraordi',
                   onPressed: _saveActivity,
                   color: AppColors.fourth,
                 ),

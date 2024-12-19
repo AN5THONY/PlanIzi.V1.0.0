@@ -182,7 +182,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 40),
                 PrimaryButton(
-                  text: '                    Continuar                     ',
+                  text: 'Continuar',
                   onPressed: () {
                     signup();
                   },

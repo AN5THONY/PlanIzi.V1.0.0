@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 40),
                   PrimaryButton(
                     text:
-                        '                    Iniciar Sesión                     ',
+                        'Iniciar Sesión',
                     onPressed: (() => signIn()),
                     color: AppColors.primary,
                   ),

@@ -57,7 +57,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   availableGestures: AvailableGestures.all,
                   selectedDayPredicate: (day) => isSameDay(day, today),
                   focusedDay: today,
-                  firstDay: DateTime.utc(2010, 10, 16),
+                  firstDay: DateTime.now(),
                   lastDay: DateTime.utc(2030, 3, 14),
                   onDaySelected: _onDaySelected,
                 ),

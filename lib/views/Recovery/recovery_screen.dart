@@ -11,6 +11,7 @@ class RecoveryScreen extends StatefulWidget {
   const RecoveryScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _RecoveryScreenState createState() => _RecoveryScreenState();
 }
 
@@ -83,7 +84,7 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
                 height: 60,
               ),
               PrimaryButton(
-                text: '                     Confirmar                    ',
+                text: 'Confirmar',
                 onPressed: () {
                   reset();
                 },
