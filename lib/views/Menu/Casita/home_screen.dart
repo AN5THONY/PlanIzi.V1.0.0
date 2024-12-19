@@ -139,6 +139,22 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: Column(
             children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.cardBackground,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 80),
+                margin: const EdgeInsets.only(top: 10, bottom: 10),
+                child: const Text(
+                  'Tus actividades de hoy',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               Expanded(
                 child: FutureBuilder<List<ActivityData>>(
                   future: activitiesFuture,
