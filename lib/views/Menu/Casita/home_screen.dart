@@ -105,8 +105,8 @@ Future<List<ActivityData>> _fetchActivitiesFromFirestore() async {
           title: data['nombreActividad'] ?? 'Sin título',
           subtitle: data['comentario'] ?? 'Sin subtítulo',
           time: time, // Usamos la hora filtrada
-          place: data['ubicacionA'] ?? 'Ubicación no disponible',
-          details: data['comentario'] ?? 'Detalles no disponibles',
+          place: data['ubicacionA'] ?? 'Ubicación desconocida',
+          details: data['comentario'] ?? 'Sin detalles',
           isCompleted: data['duracion24Horas'] ?? false,
         ));
       }
