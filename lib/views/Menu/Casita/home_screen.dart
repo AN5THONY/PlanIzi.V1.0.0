@@ -32,8 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       // obtener el usuario autenticado
       final estadoUsuario = Provider.of<EstadoUsuario>(context, listen: false);
-      final userId =
-          estadoUsuario.user?.uid; // obtener UID del usuario 
+      final userId = estadoUsuario.user?.uid; // obtener UID del usuario
 
       if (userId == null) {
         throw Exception("Usuario no autenticado");
@@ -41,24 +40,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
       // acceder a la colecciom de actividades del usuario
       final querySnapshot = await FirebaseFirestore.instance
-          .collection('users') 
-          .doc(userId) 
-          .collection('actividades') 
-          .get(); 
+          .collection('users')
+          .doc(userId)
+          .collection('actividades')
+          .get();
 
       // crear una lista de actividades
       List<ActivityData> activityList = [];
       for (var doc in querySnapshot.docs) {
         final data = doc.data();
         activityList.add(ActivityData(
-          id: doc.id, // Usar el ID 
+          id: doc.id, // Usar el ID
           title: data['nombreActividad'] ?? 'Sin título',
           subtitle: data['comentario'] ?? 'Sin subtítulo',
           time: data['horaInicio'] ?? 'Hora no disponible',
           place: data['ubicacionA'] ?? 'Ubicación no disponible',
           details: data['detalles'] ?? 'Detalles no disponibles',
-          isCompleted: data['duracion24Horas'] ??
-              false,
+          isCompleted: data['duracion24Horas'] ?? false,
         ));
       }
 
@@ -107,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         return ActivityView(
                           activity: activity,
                           onDelete: () {
-                            // Aquí puedes agregar la lógica para eliminar una actividad de la base de datos si es necesario
+                            // lógica para eliminar una actividad
                           },
                         );
                       },
