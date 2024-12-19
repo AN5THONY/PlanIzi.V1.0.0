@@ -6,6 +6,7 @@ import 'package:plan_izi_v2/widgets/buttons/radio_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:plan_izi_v2/views/Menu/Casita/home_screen.dart';
 
 class OrdiActivityScreen extends StatefulWidget {
   const OrdiActivityScreen({super.key});
@@ -101,6 +102,15 @@ class _OrdiActivityScreenState extends State<OrdiActivityScreen> {
         );
         // Limpiar el formulario
       }
+      // Redirigir a la pantalla de inicio
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  const HomeScreen()), // Asegúrate de que HomeScreen esté importado correctamente
+        );
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -160,40 +170,40 @@ class _OrdiActivityScreenState extends State<OrdiActivityScreen> {
                 SelectColor: AppColors.third,
               ),
               Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Seleccione la fecha: ',
-                      style:
-                          TextStyle(fontSize: 16, color: AppColors.textPrimary),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Seleccione la fecha: ',
+                    style:
+                        TextStyle(fontSize: 16, color: AppColors.textPrimary),
+                  ),
+                  const SizedBox(width: 40),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      iconColor: AppColors.primary,
+                      surfaceTintColor: Colors.black,
+                      foregroundColor: AppColors.third,
+                      disabledIconColor: AppColors.third,
+                      elevation: 5,
+                      shadowColor: const Color.fromARGB(255, 83, 83, 83),
                     ),
-                    const SizedBox(width: 40),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        iconColor: AppColors.primary,
-                        surfaceTintColor: Colors.black,
-                        foregroundColor: AppColors.third,
-                        disabledIconColor: AppColors.third,
-                        elevation: 5,
-                        shadowColor: const Color.fromARGB(255, 83, 83, 83),
-                      ),
-                      onPressed: () async {
-                        selectedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1950),
-                          lastDate: DateTime(2100),
-                        );
-                        setState(() {});
-                      },
-                      child: Text(
-                        selectedDate == null
-                            ? "Seleccionar"
-                            : DateFormat('yyyy-MM-dd').format(selectedDate!),
-                      ),
-                    )
-                  ],
-                ),
+                    onPressed: () async {
+                      selectedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1950),
+                        lastDate: DateTime(2100),
+                      );
+                      setState(() {});
+                    },
+                    child: Text(
+                      selectedDate == null
+                          ? "Seleccionar"
+                          : DateFormat('yyyy-MM-dd').format(selectedDate!),
+                    ),
+                  )
+                ],
+              ),
               const SizedBox(height: 16),
               CustomTextfield(
                 controller: activityNameController,

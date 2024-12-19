@@ -5,6 +5,7 @@ import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 import 'package:intl/intl.dart';
+import 'package:plan_izi_v2/views/Menu/Casita/home_screen.dart';
 
 class CreaSpecialScreen extends StatefulWidget {
   const CreaSpecialScreen({super.key});
@@ -92,6 +93,15 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
           const SnackBar(content: Text("Actividad guardada exitosamente")),
         );
       }
+      // Redirigir a la pantalla de inicio
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  const HomeScreen()), // Asegúrate de que HomeScreen esté importado correctamente
+        );
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -143,40 +153,40 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
               ),
               const SizedBox(height: 16),
               Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Seleccione el dia: ',
-                      style:
-                          TextStyle(fontSize: 16, color: AppColors.textPrimary),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Seleccione el dia: ',
+                    style:
+                        TextStyle(fontSize: 16, color: AppColors.textPrimary),
+                  ),
+                  const SizedBox(width: 40),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      iconColor: AppColors.primary,
+                      surfaceTintColor: Colors.black,
+                      foregroundColor: AppColors.third,
+                      disabledIconColor: AppColors.third,
+                      elevation: 5,
+                      shadowColor: const Color.fromARGB(255, 83, 83, 83),
                     ),
-                    const SizedBox(width: 40),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        iconColor: AppColors.primary,
-                        surfaceTintColor: Colors.black,
-                        foregroundColor: AppColors.third,
-                        disabledIconColor: AppColors.third,
-                        elevation: 5,
-                        shadowColor: const Color.fromARGB(255, 83, 83, 83),
-                      ),
-                      onPressed: () async {
-                        selectedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1950),
-                          lastDate: DateTime(2100),
-                        );
-                        setState(() {});
-                      },
-                      child: Text(
-                        selectedDate == null
-                            ? "Seleccionar fecha"
-                            : DateFormat('yyyy-MM-dd').format(selectedDate!),
-                      ),
-                    )
-                  ],
-                ),
+                    onPressed: () async {
+                      selectedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1950),
+                        lastDate: DateTime(2100),
+                      );
+                      setState(() {});
+                    },
+                    child: Text(
+                      selectedDate == null
+                          ? "Seleccionar fecha"
+                          : DateFormat('yyyy-MM-dd').format(selectedDate!),
+                    ),
+                  )
+                ],
+              ),
               SwitchListTile(
                 value: is24HourDuration,
                 onChanged: (value) {

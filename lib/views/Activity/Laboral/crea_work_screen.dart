@@ -5,6 +5,7 @@ import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 import 'package:plan_izi_v2/widgets/buttons/radio_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:plan_izi_v2/views/Menu/Casita/home_screen.dart';
 
 class CreaWorkScreen extends StatefulWidget {
   const CreaWorkScreen({super.key});
@@ -33,13 +34,13 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
 
   // dias
   final List<String> days = [
-    "Lunes",    // 1
-    "Martes",   // 2
-    "Miércoles",// 3
-    "Jueves",   // 4
-    "Viernes",  // 5
-    "Sábado",   // 6
-    "Domingo",  // 7
+    "Lunes", // 1
+    "Martes", // 2
+    "Miércoles", // 3
+    "Jueves", // 4
+    "Viernes", // 5
+    "Sábado", // 6
+    "Domingo", // 7
   ];
 
   Future<void> _selectTime(
@@ -78,7 +79,7 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
         },
         "diasSeleccionados": List.generate(7, (index) {
           return {
-            "dia": index + 1,  // giuardar el día como un numero
+            "dia": index + 1, // giuardar el día como un numero
             "horaInicio": startTimes[index]?.format(context) ?? "",
             "horaFin": endTimes[index]?.format(context) ?? "",
           };
@@ -100,6 +101,15 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
               content: Text("Actividad laboral agregada exitosamente")),
+        );
+      }
+      // Redirigir a la pantalla de inicio
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  const HomeScreen()), // Asegúrate de que HomeScreen esté importado correctamente
         );
       }
     } catch (e) {

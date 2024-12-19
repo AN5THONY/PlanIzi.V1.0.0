@@ -15,11 +15,12 @@ class EstadoUsuario with ChangeNotifier {
   }
 
   // cerrar sesion
-  Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
-    _user = null;
-    notifyListeners();
-  }
+Future<void> signOut() async {
+  await FirebaseAuth.instance.signOut();  // Cierra sesión en Firebase
+  _user = null;  // Limpia el usuario en memoria
+  notifyListeners();  // Notifica a los listeners (por ejemplo, HomeScreen) de que el estado cambió
+}
+
 
   // verificar usuario autenticado
   bool get isLoggedIn => _user != null;

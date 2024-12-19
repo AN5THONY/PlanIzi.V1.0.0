@@ -4,6 +4,7 @@ import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:plan_izi_v2/views/Menu/Casita/home_screen.dart';
 
 class CreaCotiScreen extends StatefulWidget {
   const CreaCotiScreen({super.key});
@@ -25,7 +26,7 @@ class _CreaCotiScreenState extends State<CreaCotiScreen> {
   bool isNotify = false;
   bool isAlarm = false;
   bool isSuggestions = false;
-  List<int> selectedDays = [];  // Cambiado de String a int
+  List<int> selectedDays = []; // Cambiado de String a int
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
@@ -78,6 +79,15 @@ class _CreaCotiScreenState extends State<CreaCotiScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
               content: Text("Actividad cotidiana guardada exitosamente")),
+        );
+      }
+      // Redirigir a la pantalla de inicio
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  const HomeScreen()), // Asegúrate de que HomeScreen esté importado correctamente
         );
       }
     } catch (e) {
@@ -175,26 +185,40 @@ class _CreaCotiScreenState extends State<CreaCotiScreen> {
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
-              children: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
-                  .map(
-                    (day) {
-                      int dayNumber = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"].indexOf(day);
-                      return ChoiceChip(
-                        label: Text(day),
-                        selected: selectedDays.contains(dayNumber),
-                        onSelected: (bool selected) {
-                          setState(() {
-                            if (selected) {
-                              selectedDays.add(dayNumber);
-                            } else {
-                              selectedDays.remove(dayNumber);
-                            }
-                          });
-                        },
-                      );
+              children: [
+                "Domingo",
+                "Lunes",
+                "Martes",
+                "Miércoles",
+                "Jueves",
+                "Viernes",
+                "Sábado"
+              ].map(
+                (day) {
+                  int dayNumber = [
+                    "Domingo",
+                    "Lunes",
+                    "Martes",
+                    "Miércoles",
+                    "Jueves",
+                    "Viernes",
+                    "Sábado"
+                  ].indexOf(day);
+                  return ChoiceChip(
+                    label: Text(day),
+                    selected: selectedDays.contains(dayNumber),
+                    onSelected: (bool selected) {
+                      setState(() {
+                        if (selected) {
+                          selectedDays.add(dayNumber);
+                        } else {
+                          selectedDays.remove(dayNumber);
+                        }
+                      });
                     },
-                  )
-                  .toList(),
+                  );
+                },
+              ).toList(),
             ),
             const SizedBox(height: 20),
             const Text("Necesito que ...", style: TextStyle(fontSize: 16)),

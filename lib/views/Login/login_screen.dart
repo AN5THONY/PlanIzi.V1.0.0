@@ -9,7 +9,7 @@ import 'package:plan_izi_v2/views/Menu/main_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:plan_izi_v2/views/Login/estado_usuario.dart';
 import 'package:plan_izi_v2/services/user_service.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';  // Importa shared_preferences
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,46 +23,63 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
 
   // LOGIN
-signIn() async {
-  try {
-    // iniciar sesio
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
-
-    // Obtener usuario actual
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      // sincronizar los datos del usuario con Firestore
-      await UserService().syncUserWithFirestore(
-        user.displayName ?? '',   // nombre
-        user.email ?? '',         // email
-        user.uid,                 // UID del usuario
-        DateTime.now(),           // fecha
-        'No definido',            // genero
+  signIn() async {
+    try {
+      // Iniciar sesión
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
       );
-    }
 
-    // suxesfull
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Inicio de sesión exitoso")),
-      );
-    }
-  } on FirebaseAuthException catch (e) {
-    // error
-    String errorMessage = e.message ?? 'Hubo un problema al intentar iniciar sesión. Intenta nuevamente.';
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
-      );
+      // Obtener usuario actual
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // Sincronizar los datos del usuario con Firestore
+        await UserService().syncUserWithFirestore(
+          user.displayName ?? '',   // nombre
+          user.email ?? '',         // email
+          user.uid,                 // UID del usuario
+          DateTime.now(),           // fecha
+          'No definido',            // género
+        );
+
+        // Guardar el UID en SharedPreferences
+        await saveUserId(user.uid);  // Función que guarda el UID
+      }
+
+      // Exito
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Inicio de sesión exitoso")),
+        );
+      }
+
+      // Navegar a la pantalla principal
+      if (mounted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const MainMenu()),
+          );
+        });
+      }
+    } on FirebaseAuthException catch (e) {
+      // Error
+      String errorMessage = e.message ?? 'Hubo un problema al intentar iniciar sesión. Intenta nuevamente.';
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      }
     }
   }
-}
 
-
+  // Función para guardar el UID en SharedPreferences
+  Future<void> saveUserId(String uid) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userId', uid);  // Guardar el UID
+  }
 
   @override
   Widget build(BuildContext context) {

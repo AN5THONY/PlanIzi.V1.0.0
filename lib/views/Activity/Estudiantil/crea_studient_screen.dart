@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
+import 'package:plan_izi_v2/views/Menu/Casita/home_screen.dart';
 
 class CreaStudientScreen extends StatefulWidget {
   const CreaStudientScreen({super.key});
@@ -54,7 +55,7 @@ class _CreaStudientScreenState extends State<CreaStudientScreen> {
     }
   }
 
- // guardar los datos en bd
+  // guardar los datos en bd
   Future<void> addCourseToDatabase() async {
     try {
       final user = FirebaseAuth.instance.currentUser;
@@ -72,11 +73,9 @@ class _CreaStudientScreenState extends State<CreaStudientScreen> {
         "timbrar": isTimbrar,
         "urgente": isUrgente,
         "diasSeleccionados": List.generate(days.length, (index) {
-        
           return {
             "dia": days[index],
-            "numeroDia":
-                (index == 0) ? 0 : index - 1, 
+            "numeroDia": (index == 0) ? 0 : index - 1,
             "horaInicio": startTimes[index]?.format(context) ?? "",
             "horaFin": endTimes[index]?.format(context) ?? "",
           };
@@ -94,6 +93,15 @@ class _CreaStudientScreenState extends State<CreaStudientScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Curso agregado exitosamente")),
+        );
+      }
+      // Redirigir a la pantalla de inicio
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  const HomeScreen()), // Asegúrate de que HomeScreen esté importado correctamente
         );
       }
     } catch (e) {
