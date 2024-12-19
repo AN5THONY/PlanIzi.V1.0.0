@@ -57,10 +57,12 @@ List<Bag> listOfBags() {
         Link(web: 'https://chiassa.tiendada.com/' ,wsp: 'wa.link/fy3tw3')
       ],
       products: [
-        Product(productName: 'Escote V - Rosa/M', description: 'Tallas X - L - XL', price: 120.50, desc: 33, imagePro: 'https://chiassa.tiendada.com/api/scrooge/file/FL-48AB5756' ),
-        Product(productName: 'Silla ergonómica', description: 'Silla cómoda para oficina', price: 75.00, desc: 20, imagePro: '')
+        Product(productName: 'Calzón moldeador', description: 'Blanco/M.L - XL.XXL', price: 39.90, desc: 43, imagePro: 'https://chiassa.tiendada.com/api/scrooge/file/FL-876A89A8' ),
+        Product(productName: 'Short Modelador Tiro Alto', description: 'Negro/M - L - XL- XXL ', price: 89.90, desc: 25, imagePro: 'https://chiassa.tiendada.com/api/scrooge/file/FL-B8823369'),
+        Product(productName: 'Top basic', description: 'Negro/ M.L - XL.XXL', price: 29.90, desc: 54.90, imagePro: 'https://chiassa.tiendada.com/api/scrooge/file/FL-43BB5732')
       ],
     ),
+    
     Bag(
       name: 'Didi',
       categoria: 'FastFood',

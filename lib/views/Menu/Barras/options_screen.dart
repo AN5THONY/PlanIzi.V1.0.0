@@ -188,7 +188,6 @@ class FooterSection extends StatelessWidget {
         scheme: 'https',
         host: 'www.facebook.com',
         path: 'people/Planizi-Corporation/61570113523002/');
-    final websiteUriI = Uri.parse('https://www.intagram.com');
     final websiteUriW = Uri.parse('https://planizi.weebly.com');
     String footMessage1 = 'Entra a nuestra pagina web, para poder descargar la App';
     String footMessage2 = 'En nuestra pagina web encontraras la ayuda que necesitas';
@@ -229,16 +228,7 @@ class FooterSection extends StatelessWidget {
                   );
                 },
               ),
-              IconButton(
-                icon: const Icon(Icons.camera_alt,
-                    size: 30, color: Colors.pink), // Instagram
-                onPressed: () {
-                  launchUrl(
-                    websiteUriI,
-                    mode: LaunchMode.externalApplication,
-                  );
-                },
-              ),
+              
               IconButton(
                 icon: const Icon(Icons.public, size: 30, color: Colors.teal),
                 onPressed: () {

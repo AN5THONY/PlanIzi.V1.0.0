@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/models/bag.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 
+
 class PerfilShopScreen extends StatefulWidget {
   final Bag bag;
 
@@ -55,7 +56,7 @@ class _PerfilShopScreenState extends State<PerfilShopScreen> {
                   Text(
                     _isExpanded
                         ? widget.bag.description
-                        : '${widget.bag.description.substring(0, 200)}...',
+                        : '${widget.bag.description.substring(0, 50)}...',
                     style: const TextStyle(fontSize: 20),
                   ),
                   GestureDetector(
@@ -78,80 +79,97 @@ class _PerfilShopScreenState extends State<PerfilShopScreen> {
               const SizedBox(height: 20),
               Row(
                 children: [
-                  Container(
-                    width: 120,
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            'https://cdn-icons-png.flaticon.com/512/5339/5339181.png',
-                            height: 80,
-                            width: 80,
-                            fit: BoxFit.contain,
+                  InkWell(
+                    onTap: () {
+                      final url = widget.bag.links.isNotEmpty ? widget.bag.links[0].web : '';
+                      if (url.isNotEmpty) {
+                        // Navegar al sitio web
+                       
+                      }
+                    },
+                    child: Container(
+                      width: 120,
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              'https://cdn-icons-png.flaticon.com/512/5339/5339181.png',
+                              height: 80,
+                              width: 80,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'Website',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Website',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    width: 120,
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            'https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png',
-                            height: 80,
-                            width: 80,
-                            fit: BoxFit.contain,
+                  InkWell(
+                    onTap: () {
+                      final wsp = widget.bag.links.isNotEmpty ? widget.bag.links[0].wsp : '';
+                      if (wsp.isNotEmpty) {
+                        // wsp
+                      }
+                    },
+                    child: Container(
+                      width: 120,
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              'https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png',
+                              height: 80,
+                              width: 80,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'WhatsApp',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                          const SizedBox(height: 20),
+                          const Text(
+                            'WhatsApp',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -169,14 +187,20 @@ class _PerfilShopScreenState extends State<PerfilShopScreen> {
                   return Card(
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     child: ListTile(
+                      leading: Image.network(
+                        product.imagePro,
+                        width: 70,
+                        height: 70,
+                        fit: BoxFit.cover,
+                      ),
                       title: Text(product.productName),
                       subtitle: Text(product.description),
-                      trailing: const Column(
+                      trailing: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('S/\${product.price.toStringAsFixed(2)}'),
-                          Text('-\${product.desc}% Descuento',
-                              style: TextStyle(
+                          Text('S/ ${product.price} '),
+                          Text('- ${product.desc}% Descuento',
+                              style: const TextStyle(
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,
                               )),
