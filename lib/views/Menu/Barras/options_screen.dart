@@ -6,6 +6,8 @@ import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/sus_primium.dart';
 import 'package:provider/provider.dart';
 import 'package:plan_izi_v2/views/Login/estado_usuario.dart';
 import 'package:plan_izi_v2/views/Login/login_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class OptionsScreen extends StatelessWidget {
   const OptionsScreen({super.key});
@@ -182,6 +184,11 @@ class FooterSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final Uri websiteUriF = Uri(scheme: 'https', host: 'www.facebook.com', path: 'people/Planizi-Corporation/61570113523002/' );
+    final websiteUriI = Uri.parse('https://www.intagram.com');
+    final websiteUriW = Uri.parse('https://planizi.weebly.com');
+
     return Container(
       color: AppColors.cardBackground,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -205,16 +212,30 @@ class FooterSection extends StatelessWidget {
             children: [
               IconButton(
                 icon: const Icon(Icons.facebook, size: 30, color: Colors.blue),
-                onPressed: () {},
+                onPressed: () {
+                    launchUrl(
+                      websiteUriF,
+                      mode: LaunchMode.externalApplication,
+                  );},
               ),
               IconButton(
                 icon: const Icon(Icons.camera_alt,
                     size: 30, color: Colors.pink), // Instagram
-                onPressed: () {},
+                onPressed: () {
+                  launchUrl(
+                    websiteUriI,
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
               ),
               IconButton(
                 icon: const Icon(Icons.public, size: 30, color: Colors.teal),
-                onPressed: () {},
+                onPressed: () {
+                  launchUrl(
+                    websiteUriW,
+                    mode: LaunchMode.inAppWebView,
+                  );
+                },
               ),
             ],
           ),
