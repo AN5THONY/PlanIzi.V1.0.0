@@ -26,7 +26,7 @@ class ActivityViewState extends State<ActivityView> {
   void initState() {
     super.initState();
     // Asigna un color inicial según el tipo de actividad (editable)
-    headerColor = _getColorForActivity( 'Trabajo' /*widget.activity.time*/);
+    headerColor = _getColorForActivity( 'Recreación' /*widget.activity.time*/);
     originalHeaderColor = headerColor; // Guarda el color original
   }
 
@@ -40,7 +40,7 @@ class ActivityViewState extends State<ActivityView> {
       case 'Trabajo':
         return AppColors.fourth;
       case 'Recreación':
-        return AppColors.primary;
+        return const Color.fromARGB(255, 101, 168, 168);
       default:
         return AppColors.cardBackground; // Color por defecto
     }
@@ -82,13 +82,13 @@ class ActivityViewState extends State<ActivityView> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       decoration: isCompleted
                           ? TextDecoration.lineThrough
                           : TextDecoration.none, // Rayar el texto si está completado
                     ),
                   ),
-                  const Icon(Icons.push_pin_sharp, color: AppColors.textSecondary),
+                  const Icon(Icons.push_pin_sharp, color: Color.fromARGB(255, 0, 0, 0)),
                 ],
               ),
             ),
