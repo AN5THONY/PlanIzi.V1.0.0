@@ -1,11 +1,11 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:plan_izi_v2/models/bag.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
+import 'package:plan_izi_v2/views/Menu/Corazon/Tienda/category_screen.dart';
+import 'package:plan_izi_v2/views/Menu/Corazon/Tienda/perfil_shop_screen.dart';
+import 'package:plan_izi_v2/widgets/Carousel/carousel_cate.dart';
+import 'package:plan_izi_v2/widgets/Carousel/carousel_main.dart';
 import 'package:plan_izi_v2/widgets/Tiendas/bag_item.dart';
-
-
 
 class SubcriptionsScreen extends StatefulWidget {
   const SubcriptionsScreen({super.key});
@@ -15,87 +15,94 @@ class SubcriptionsScreen extends StatefulWidget {
 }
 
 class _SubcriptionsScreenState extends State<SubcriptionsScreen> {
-
   List<Bag> bags = listOfBags();
-  List<String> heroImages = [
-    "https://static.mercadonegro.pe/wp-content/uploads/2022/07/22162714/Iconico-IncaKola-2021-1-scaled.jpg",
-    "https://www.heyhunters.com/wp-content/uploads/2022/07/web-HH-IK-IG-behance2-01.jpg",
-  ];
+
+  void onBagTap(Bag bag) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PerfilShopScreen(bag: bag,),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20,),
+      child: Column(
+        children: [
+          const SizedBox(height: 20),
 
-            Center(child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              decoration: const BoxDecoration(color: AppColors.cardBackground),
-              child: CarouselMain())),
+          // Carrusel principal
+          CarouselMain(),
 
+          const SizedBox(height: 10),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20.0),
-              child: GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: bags.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisExtent: 280,
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 24),
-                itemBuilder: (context, index){
-                  return BagItem(bag: bags[index]);
-                }
+          // Sección Categorías
+          const Text(
+            'Categorías',
+            style: TextStyle(
+              fontSize: 25,
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+         SizedBox(
+            height: 200, // Altura fija para el carrusel de categorías
+            child: CarouselCategories(
+              onCategoryTap: (selectedCategory) {
+                // Obtener las tiendas filtradas por categoría
+                final filteredBags = bags
+                    .where((bag) => bag.categoria == selectedCategory)
+                    .toList();
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CategoryScreen(
+                      categoryTitle: selectedCategory,
+                      filteredBags: filteredBags,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          // Sección Tiendas
+          const Text(
+            'Tiendas',
+            style: TextStyle(
+              fontSize: 25,
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20.0),
+            child: GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: bags.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisExtent: 280,
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 24,
               ),
-            )
-        
-          ],
+              itemBuilder: (context, index) {
+                return BagItem(
+                  bag: bags[index],
+                  onTap: () => onBagTap(bags[index]),
+                );
+              },
+            ),
+          ),
+        ],
       ),
-      
     );
   }
-
-
-// ignore: non_constant_identifier_names
-Widget CarouselMain() {
-  return  Stack(
-    children: [
-      CarouselSlider.builder(
-                  itemCount: heroImages.length,
-                  options: CarouselOptions(
-                    height: 250.0,
-                    autoPlay: true,
-                    enlargeCenterPage: true,
-                  ),
-                  itemBuilder: (context, index, realIndex) {
-                    return Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-      
-                        image: DecorationImage(
-                          image: NetworkImage(heroImages[index]),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Text("OFERTAS DEL DÍA", style: GoogleFonts.playfairDisplay(fontSize:  22,backgroundColor: AppColors.cardBackground, fontWeight: FontWeight.bold),),
-                          )
-                        ],
-                      ),
-                      
-                    );
-                  },
-                ),
-    ],
-  );
-}
 }
