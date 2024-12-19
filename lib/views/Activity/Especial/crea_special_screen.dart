@@ -6,6 +6,7 @@ import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 import 'package:intl/intl.dart';
 import 'package:plan_izi_v2/views/Menu/main_menu.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class CreaSpecialScreen extends StatefulWidget {
   const CreaSpecialScreen({super.key});
@@ -27,6 +28,13 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
   bool isSoundEnabled = false;
   bool isLocationEnabled = false;
   bool isUrgent = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Inicializar la localización en español
+    initializeDateFormatting('es_ES', null);
+  }
 
   Future<void> _selectTime(BuildContext context, bool isStartTime) async {
     final TimeOfDay? pickedTime = await showTimePicker(
@@ -66,9 +74,17 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
         throw Exception("Usuario no autenticado.");
       }
 
+      // Ajustar la fecha para la zona horaria local
+      if (selectedDate != null) {
+        selectedDate = selectedDate?.add(const Duration(hours: 6)); // Ajusta según tu zona horaria
+      }
+
+      // Obtener el número del día (1 = lunes, 7 = domingo)
+      int dayNumber = selectedDate?.weekday ?? 0; // Esto da el número del día
+
       final Map<String, dynamic> activityData = {
         "nombreActividad": activityNameController.text,
-        "fecha": selectedDate, //guia para mostrar
+        "fecha": selectedDate, // Aquí ya está ajustada
         "duracion24Horas": is24HourDuration,
         "horaInicio": _formatTime24(selectedStartHour),
         "horaFin": _formatTime24(selectedEndHour),
@@ -80,6 +96,7 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
         "urgente": isUrgent,
         "tipo": "especial",
         "timestamp": FieldValue.serverTimestamp(),
+        "dia": dayNumber,  // Guardar el número del día (1-7)
       };
 
       await FirebaseFirestore.instance
@@ -96,9 +113,9 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
       // Redirigir a la pantalla de inicio
       if (mounted) {
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const MainMenu()),
-          );
+          context,
+          MaterialPageRoute(builder: (context) => const MainMenu()),
+        );
       }
     } catch (e) {
       if (mounted) {
@@ -153,12 +170,6 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Seleccione el dia: ',
-                    style:
-                        TextStyle(fontSize: 16, color: AppColors.textPrimary),
-                  ),
-                  const SizedBox(width: 40),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       iconColor: AppColors.primary,
@@ -182,7 +193,17 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
                           ? "Seleccionar fecha"
                           : DateFormat('yyyy-MM-dd').format(selectedDate!),
                     ),
-                  )
+                  ),
+                  const SizedBox(width: 40),
+                  selectedDate == null
+                      ? const Text(
+                          'Seleccione el dia: ',
+                          style: TextStyle(fontSize: 16, color: AppColors.textPrimary),
+                        )
+                      : Text(
+                          'Día: ${DateFormat('EEEE', 'es_ES').format(selectedDate!)}', // Ahora en español
+                          style: const TextStyle(fontSize: 16, color: AppColors.textPrimary),
+                        ),
                 ],
               ),
               SwitchListTile(
@@ -308,7 +329,7 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
                   onPressed: _saveActivity,
                   color: AppColors.fourth,
                 ),
-              )
+              ),
             ],
           ),
         ),

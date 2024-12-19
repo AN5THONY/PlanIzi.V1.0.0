@@ -35,85 +35,89 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // obtener las actividades desde Firestore
-  Future<List<ActivityData>> _fetchActivitiesFromFirestore() async {
-    try {
-      final estadoUsuario = Provider.of<EstadoUsuario>(context, listen: false);
-      final userId = estadoUsuario.user?.uid;
+Future<List<ActivityData>> _fetchActivitiesFromFirestore() async {
+  try {
+    final estadoUsuario = Provider.of<EstadoUsuario>(context, listen: false);
+    final userId = estadoUsuario.user?.uid;
 
-      if (userId == null) {
-        throw Exception("Usuario no autenticado");
-      }
+    if (userId == null) {
+      throw Exception("Usuario no autenticado");
+    }
 
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .collection('actividades')
-          .get();
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('actividades')
+        .get();
 
-      final now = DateTime.now();
-      final today =
-          DateTime(now.year, now.month, now.day); // fecha actual sin hora
-      final dayOfWeek = now.weekday; // día de la semana actual
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day); // fecha actual sin hora
+    final dayOfWeek = now.weekday; // día de la semana actual
 
-      List<ActivityData> activityList = [];
-      for (var doc in querySnapshot.docs) {
-        final data = doc.data();
+    List<ActivityData> activityList = [];
+    for (var doc in querySnapshot.docs) {
+      final data = doc.data();
 
-        // filtro por tipo y condiciones
-        final tipo = data['tipo'] ?? '';
+      // filtro por tipo y condiciones
+      final tipo = data['tipo'] ?? '';
 
-        bool isValid = false;
+      bool isValid = false;
+      String time = 'Hora no disponible'; // Inicializamos time
 
-        if (tipo == "especial" || tipo == "ordinario") {
-          final fecha = data['fecha'];
-          if (fecha is Timestamp) {
-            final fechaDate = fecha.toDate();
-            final fechaSinHora =
-                DateTime(fechaDate.year, fechaDate.month, fechaDate.day);
-            if (fechaSinHora == today) {
-              isValid = true;
-            }
+      if (tipo == "especial" || tipo == "ordinario") {
+        final fecha = data['fecha'];
+        if (fecha is Timestamp) {
+          final fechaDate = fecha.toDate();
+          final fechaSinHora = DateTime(fechaDate.year, fechaDate.month, fechaDate.day);
+          if (fechaSinHora == today) {
+            isValid = true;
           }
-        } else if (tipo == "cotidiano" ||
-            tipo == "laboral" ||
-            tipo == "estudiantil") {
-          final diasSeleccionados = data['diasSeleccionados'];
-          if (diasSeleccionados != null && diasSeleccionados is List) {
-            for (var dia in diasSeleccionados) {
-              if (dia is Map && dia.containsKey('dia')) {
-                if (dia['dia'] == dayOfWeek &&
-                    dia['horaInicio'].isNotEmpty &&
-                    dia['horaFin'].isNotEmpty) {
-                  isValid = true;
-                  break;
+        }
+      } else if (tipo == "cotidiano" || tipo == "laboral" || tipo == "estudiantil") {
+        final diasSeleccionados = data['diasSeleccionados'];
+        if (diasSeleccionados != null && diasSeleccionados is List) {
+          for (var dia in diasSeleccionados) {
+            if (dia is Map && dia.containsKey('dia')) {
+              if (dia['dia'] == dayOfWeek) {
+                // Aquí se asigna correctamente la hora de inicio
+                if (dia.containsKey('horaInicio') && dia['horaInicio'].isNotEmpty) {
+                  time = dia['horaInicio']; // Asignamos la hora de inicio
+                  isValid = true; // Actividad válida
                 }
-              } else if (dia == dayOfWeek) {
-                isValid = true;
                 break;
               }
+            } else if (dia == dayOfWeek) {
+              // Si el día es un número simple, asigna la hora general
+              if (data.containsKey('horaInicio') && data['horaInicio'].isNotEmpty) {
+                time = data['horaInicio']; // Asignamos la hora general
+                isValid = true;
+              }
+              break;
             }
           }
         }
-
-        // Si pasa el filtro, se agrega a la lista
-        if (isValid) {
-          activityList.add(ActivityData(
-            id: doc.id,
-            title: data['nombreActividad'] ?? 'Sin título',
-            subtitle: data['comentario'] ?? 'Sin subtítulo',
-            time: data['horaInicio'] ?? 'Hora no disponible',
-            place: data['ubicacionA'] ?? 'Ubicación no disponible',
-            details: data['detalles'] ?? 'Detalles no disponibles',
-            isCompleted: data['duracion24Horas'] ?? false,
-          ));
-        }
       }
 
-      return activityList;
-    } catch (e) {
-      throw Exception("Error al obtener actividades: $e");
+      // Si pasa el filtro, se agrega a la lista
+      if (isValid) {
+        activityList.add(ActivityData(
+          id: doc.id,
+          title: data['nombreActividad'] ?? 'Sin título',
+          subtitle: data['comentario'] ?? 'Sin subtítulo',
+          time: time, // Usamos la hora filtrada
+          place: data['ubicacionA'] ?? 'Ubicación desconocida',
+          details: data['comentario'] ?? 'Sin detalles',
+          isCompleted: data['duracion24Horas'] ?? false,
+        ));
+      }
     }
+
+    return activityList;
+  } catch (e) {
+    throw Exception("Error al obtener actividades: $e");
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
