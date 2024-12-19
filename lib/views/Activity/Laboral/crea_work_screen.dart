@@ -31,14 +31,15 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
   final List<TimeOfDay?> startTimes = List.filled(7, null);
   final List<TimeOfDay?> endTimes = List.filled(7, null);
 
+  // dias
   final List<String> days = [
-    "Lunes",
-    "Martes",
-    "Miércoles",
-    "Jueves",
-    "Viernes",
-    "Sábado",
-    "Domingo",
+    "Lunes",    // 1
+    "Martes",   // 2
+    "Miércoles",// 3
+    "Jueves",   // 4
+    "Viernes",  // 5
+    "Sábado",   // 6
+    "Domingo",  // 7
   ];
 
   Future<void> _selectTime(
@@ -75,9 +76,9 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
           "desde": locationFromController.text,
           "hasta": locationToController.text,
         },
-        "diasSeleccionados": List.generate(days.length, (index) {
+        "diasSeleccionados": List.generate(7, (index) {
           return {
-            "dia": days[index],
+            "dia": index + 1,  // giuardar el día como un numero
             "horaInicio": startTimes[index]?.format(context) ?? "",
             "horaFin": endTimes[index]?.format(context) ?? "",
           };

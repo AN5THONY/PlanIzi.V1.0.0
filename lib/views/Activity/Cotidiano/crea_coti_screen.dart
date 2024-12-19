@@ -25,7 +25,7 @@ class _CreaCotiScreenState extends State<CreaCotiScreen> {
   bool isNotify = false;
   bool isAlarm = false;
   bool isSuggestions = false;
-  List<String> selectedDays = [];
+  List<int> selectedDays = [];  // Cambiado de String a int
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
@@ -55,7 +55,7 @@ class _CreaCotiScreenState extends State<CreaCotiScreen> {
         "lugarAfuera": isOutside,
         "ubicacionDe": locationFromController.text,
         "ubicacionA": locationToController.text,
-        "diasSeleccionados": selectedDays,//guia para mostrar
+        "diasSeleccionados": selectedDays, // lista de enteros
         "notificar": isNotify,
         "alarma": isAlarm,
         "sugerencias": isSuggestions,
@@ -175,21 +175,24 @@ class _CreaCotiScreenState extends State<CreaCotiScreen> {
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
-              children: ["DOM", "LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB"]
+              children: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
                   .map(
-                    (day) => ChoiceChip(
-                      label: Text(day),
-                      selected: selectedDays.contains(day),
-                      onSelected: (bool selected) {
-                        setState(() {
-                          if (selected) {
-                            selectedDays.add(day);
-                          } else {
-                            selectedDays.remove(day);
-                          }
-                        });
-                      },
-                    ),
+                    (day) {
+                      int dayNumber = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"].indexOf(day);
+                      return ChoiceChip(
+                        label: Text(day),
+                        selected: selectedDays.contains(dayNumber),
+                        onSelected: (bool selected) {
+                          setState(() {
+                            if (selected) {
+                              selectedDays.add(dayNumber);
+                            } else {
+                              selectedDays.remove(dayNumber);
+                            }
+                          });
+                        },
+                      );
+                    },
                   )
                   .toList(),
             ),

@@ -24,7 +24,15 @@ class _CreaStudientScreenState extends State<CreaStudientScreen> {
   bool isUrgente = false;
 
   // horarios
-  final List<String> days = ["DOM", "LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB"];
+  final List<String> days = [
+    "Domingo",
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado"
+  ];
   List<TimeOfDay?> startTimes = List.filled(7, null);
   List<TimeOfDay?> endTimes = List.filled(7, null);
 
@@ -46,7 +54,7 @@ class _CreaStudientScreenState extends State<CreaStudientScreen> {
     }
   }
 
-  // guardar los datos en bd
+ // guardar los datos en bd
   Future<void> addCourseToDatabase() async {
     try {
       final user = FirebaseAuth.instance.currentUser;
@@ -64,8 +72,11 @@ class _CreaStudientScreenState extends State<CreaStudientScreen> {
         "timbrar": isTimbrar,
         "urgente": isUrgente,
         "diasSeleccionados": List.generate(days.length, (index) {
+        
           return {
             "dia": days[index],
+            "numeroDia":
+                (index == 0) ? 0 : index - 1, 
             "horaInicio": startTimes[index]?.format(context) ?? "",
             "horaFin": endTimes[index]?.format(context) ?? "",
           };
