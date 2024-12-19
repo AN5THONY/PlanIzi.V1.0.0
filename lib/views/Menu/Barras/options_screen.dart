@@ -6,8 +6,8 @@ import 'package:plan_izi_v2/views/Menu/Barras/Suscripciones/sus_primium.dart';
 import 'package:provider/provider.dart';
 import 'package:plan_izi_v2/views/Login/estado_usuario.dart';
 import 'package:plan_izi_v2/views/Login/login_screen.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 class OptionsScreen extends StatelessWidget {
   const OptionsScreen({super.key});
@@ -184,11 +184,14 @@ class FooterSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final Uri websiteUriF = Uri(scheme: 'https', host: 'www.facebook.com', path: 'people/Planizi-Corporation/61570113523002/' );
+    final Uri websiteUriF = Uri(
+        scheme: 'https',
+        host: 'www.facebook.com',
+        path: 'people/Planizi-Corporation/61570113523002/');
     final websiteUriI = Uri.parse('https://www.intagram.com');
     final websiteUriW = Uri.parse('https://planizi.weebly.com');
-
+    String footMessage1 = 'Entra a nuestra pagina web, para poder descargar la App';
+    String footMessage2 = 'En nuestra pagina web encontraras la ayuda que necesitas';
     return Container(
       color: AppColors.cardBackground,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -198,11 +201,18 @@ class FooterSection extends StatelessWidget {
           const Text('Acerca de la aplicación',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
-          _buildOptionButton('Invita amigos a la aplicación'),
-          const SizedBox(height: 8),
-          _buildOptionButton('Califícanos y comenta'),
-          const SizedBox(height: 8),
-          _buildOptionButton('¿Necesitas ayuda?'),
+          footerApp(text: 'Inivita amigos a la aplicación', onPressed: () { 
+            Share.share("$footMessage2 $websiteUriW");
+          },),
+          const SizedBox(height: 10),
+          footerApp(text: 'Calificanos y comenta', onPressed: () 
+          { 
+            //PLAY STORE
+          }),
+          const SizedBox(height: 10),
+          footerApp(text: '¿Necesitas ayuda?', onPressed: () { 
+            Share.share("$footMessage1 $websiteUriW");
+          },),
           const SizedBox(height: 20),
           const Text('Redes',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -213,10 +223,11 @@ class FooterSection extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.facebook, size: 30, color: Colors.blue),
                 onPressed: () {
-                    launchUrl(
-                      websiteUriF,
-                      mode: LaunchMode.externalApplication,
-                  );},
+                  launchUrl(
+                    websiteUriF,
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
               ),
               IconButton(
                 icon: const Icon(Icons.camera_alt,
@@ -262,10 +273,23 @@ class FooterSection extends StatelessWidget {
     );
   }
 
-  Widget _buildOptionButton(String text) {
+}
+
+// ignore: camel_case_types
+class footerApp extends StatelessWidget {
+  const footerApp({
+    super.key,
+    required this.text,
+    required this.onPressed,
+  });
+  final String text;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -277,9 +301,12 @@ class FooterSection extends StatelessWidget {
           ),
         ],
       ),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 14),
+      child: TextButton(
+        onPressed: onPressed,
+        child:  Text(
+          text,
+          style: const TextStyle(fontSize: 14),
+        ),
       ),
     );
   }
