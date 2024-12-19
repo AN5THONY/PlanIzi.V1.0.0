@@ -116,16 +116,17 @@ class ActivityViewState extends State<ActivityView> {
                   ),
                 ),
                 //Destino
-                Text(
+                
+                
+              ],
+            ),
+            Text(
                   widget.activity.details,
                   style: const TextStyle(
                     fontSize: 14,
                     color: AppColors.textSecondary,
                   ),
                 ),
-                
-              ],
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
