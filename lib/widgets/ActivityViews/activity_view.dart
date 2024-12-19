@@ -13,10 +13,10 @@ class ActivityView extends StatefulWidget {
   });
 
   @override
-  _ActivityViewState createState() => _ActivityViewState();
+  ActivityViewState createState() => ActivityViewState();
 }
 
-class _ActivityViewState extends State<ActivityView> {
+class ActivityViewState extends State<ActivityView> {
   bool isCompleted = false; // Controla si la actividad está completada
   bool isVisible = true; // Controla si la actividad se muestra
   Color headerColor = AppColors.cardBackground; // Color inicial del encabezado

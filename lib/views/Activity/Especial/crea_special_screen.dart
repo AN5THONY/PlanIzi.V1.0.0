@@ -93,7 +93,7 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error al guardar la actividad: $e")),
+          const SnackBar(content: Text("Error al guardar la actividad")),
         );
       }
     }

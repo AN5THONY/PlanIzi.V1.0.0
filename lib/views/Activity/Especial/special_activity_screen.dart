@@ -15,6 +15,7 @@ class SpecialActivityScreen extends StatefulWidget {
 }
 
 class _SpecialActivityScreenState extends State<SpecialActivityScreen> {
+  // obtener las actividades especiales desde db
   Future<List<Map<String, dynamic>>> _fetchSpecialActivities() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) throw Exception("Usuario no autenticado.");
@@ -23,7 +24,7 @@ class _SpecialActivityScreenState extends State<SpecialActivityScreen> {
         .collection("users")
         .doc(user.uid)
         .collection("actividades")
-        .where("tipo", isEqualTo: "especial") // filtrar por tipo
+        .where("tipo", isEqualTo: "especial") //  filtro actividad
         .get();
 
     return querySnapshot.docs.map((doc) => doc.data()).toList();
@@ -91,12 +92,12 @@ class _SpecialActivityScreenState extends State<SpecialActivityScreen> {
                           TextStyle(fontSize: 16, color: AppColors.textPrimary),
                     ),
                     const SizedBox(height: 35),
-                    // mostrar si no hay actividades
+                    // Mostrar si no hay actividades
                     if (activities.isEmpty)
                       const Center(
                         child: Text("No tienes actividades especiales."),
                       ),
-                    // mostrar si hay 
+                    // Mostrar actividades si existen
                     if (activities.isNotEmpty)
                       ...activities.map((activity) {
                         return SpecialItem(
@@ -104,7 +105,7 @@ class _SpecialActivityScreenState extends State<SpecialActivityScreen> {
                               nombre: activity["nombreActividad"] ??
                                   "Actividad sin nombre"),
                           onDelete: () {
-                            // logica pars eliminar la actividad
+                            // Lógica para eliminar la actividad
                           },
                         );
                       }),
