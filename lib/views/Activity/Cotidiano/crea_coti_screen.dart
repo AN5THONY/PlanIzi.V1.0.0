@@ -55,7 +55,7 @@ class _CreaCotiScreenState extends State<CreaCotiScreen> {
         "lugarAfuera": isOutside,
         "ubicacionDe": locationFromController.text,
         "ubicacionA": locationToController.text,
-        "diasSeleccionados": selectedDays,
+        "diasSeleccionados": selectedDays,//guia para mostrar
         "notificar": isNotify,
         "alarma": isAlarm,
         "sugerencias": isSuggestions,

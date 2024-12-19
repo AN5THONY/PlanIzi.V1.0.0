@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
+import 'package:intl/intl.dart';
 
 class CreaSpecialScreen extends StatefulWidget {
   const CreaSpecialScreen({super.key});
@@ -17,7 +18,7 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
   final TextEditingController noteController = TextEditingController();
   final TextEditingController locationFromController = TextEditingController();
   final TextEditingController locationToController = TextEditingController();
-
+  DateTime? selectedDate;
   TimeOfDay? selectedStartHour;
   TimeOfDay? selectedEndHour;
   bool is24HourDuration = false;
@@ -66,6 +67,7 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
 
       final Map<String, dynamic> activityData = {
         "nombreActividad": activityNameController.text,
+        "fecha": selectedDate, //guia para mostrar
         "duracion24Horas": is24HourDuration,
         "horaInicio": _formatTime24(selectedStartHour),
         "horaFin": _formatTime24(selectedEndHour),
@@ -140,6 +142,41 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
                 hintText: "Agregar actividad",
               ),
               const SizedBox(height: 16),
+              Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Seleccione el dia: ',
+                      style:
+                          TextStyle(fontSize: 16, color: AppColors.textPrimary),
+                    ),
+                    const SizedBox(width: 40),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        iconColor: AppColors.primary,
+                        surfaceTintColor: Colors.black,
+                        foregroundColor: AppColors.third,
+                        disabledIconColor: AppColors.third,
+                        elevation: 5,
+                        shadowColor: const Color.fromARGB(255, 83, 83, 83),
+                      ),
+                      onPressed: () async {
+                        selectedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1950),
+                          lastDate: DateTime(2100),
+                        );
+                        setState(() {});
+                      },
+                      child: Text(
+                        selectedDate == null
+                            ? "Seleccionar fecha"
+                            : DateFormat('yyyy-MM-dd').format(selectedDate!),
+                      ),
+                    )
+                  ],
+                ),
               SwitchListTile(
                 value: is24HourDuration,
                 onChanged: (value) {

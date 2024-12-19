@@ -75,11 +75,11 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
           "desde": locationFromController.text,
           "hasta": locationToController.text,
         },
-        "horarios": List.generate(days.length, (index) {
+        "diasSeleccionados": List.generate(days.length, (index) {
           return {
             "dia": days[index],
-            "inicio": startTimes[index]?.format(context) ?? "",
-            "fin": endTimes[index]?.format(context) ?? "",
+            "horaInicio": startTimes[index]?.format(context) ?? "",
+            "horaFin": endTimes[index]?.format(context) ?? "",
           };
         }),
         "notificar": notificarChecked,
