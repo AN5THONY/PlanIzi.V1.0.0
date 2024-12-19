@@ -178,6 +178,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: confirmController,
                   labelText: 'Confirma tu contraseña',
                   hintText: 'Confirma tu contraseña',
+                  isPassword: true,
                 ),
                 const SizedBox(height: 40),
                 PrimaryButton(

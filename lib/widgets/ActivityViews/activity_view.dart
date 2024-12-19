@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/models/activity_data.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'package:plan_izi_v2/views/Login/estado_usuario.dart';
 
 class ActivityView extends StatefulWidget {
   final ActivityData activity;
@@ -17,20 +20,39 @@ class ActivityView extends StatefulWidget {
 }
 
 class ActivityViewState extends State<ActivityView> {
-  bool isCompleted = false; // Controla si la actividad está completada
-  bool isVisible = true; // Controla si la actividad se muestra
-  Color headerColor = AppColors.cardBackground; // Color inicial del encabezado
-  Color originalHeaderColor = AppColors.cardBackground; // Guarda el color original
+  bool isCompleted = false; 
+  bool isVisible = true; 
+  Color headerColor = AppColors.cardBackground;
+  Color originalHeaderColor =
+      AppColors.cardBackground; 
 
   @override
   void initState() {
     super.initState();
-    // Asigna un color inicial según el tipo de actividad (editable)
-    headerColor = _getColorForActivity( 'Recreación' /*widget.activity.time*/);
-    originalHeaderColor = headerColor; // Guarda el color original
+    isCompleted = widget.activity.isCompleted;
+
+    headerColor = _getColorForActivity('Recreación' /*widget.activity.time*/);
+    originalHeaderColor = headerColor;
   }
 
-  // Ejemplo para asignar un color según el tipo de actividad
+
+  Future<void> _updateActivityCompletion(bool completionStatus) async {
+    try {
+      final userId =
+          Provider.of<EstadoUsuario>(context, listen: false).user?.uid;
+      if (userId == null) throw Exception("Usuario no autenticado");
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('actividades')
+          .doc(widget.activity.id)
+          .update({'isCompleted': completionStatus});
+    } catch (e) {
+      //
+    }
+  }
+
   Color _getColorForActivity(String activityType) {
     switch (activityType) {
       case 'Ejercicio':
@@ -78,17 +100,21 @@ class ActivityViewState extends State<ActivityView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Título
-                  Text(widget.activity.title,
+                  Text(
+                    widget.activity.title,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: const Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 0, 0, 0),
                       decoration: isCompleted
                           ? TextDecoration.lineThrough
-                          : TextDecoration.none, // Rayar el texto si está completado
+                          : TextDecoration
+                              .none,
+                              decorationThickness: isCompleted ? 4.5 : 0.0, // Rayar el texto si está completado
                     ),
                   ),
-                  const Icon(Icons.push_pin_sharp, color: Color.fromARGB(255, 0, 0, 0)),
+                  const Icon(Icons.push_pin_sharp,
+                      color: Color.fromARGB(255, 0, 0, 0)),
                 ],
               ),
             ),
@@ -102,7 +128,6 @@ class ActivityViewState extends State<ActivityView> {
               ),
             ),
             const SizedBox(height: 8),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -115,45 +140,20 @@ class ActivityViewState extends State<ActivityView> {
                     color: AppColors.textSecondary,
                   ),
                 ),
-                //Destino
-                
-                
               ],
             ),
-            Text(
-                  widget.activity.details,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: AppColors.textSecondary,
-                  ),
+            
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              const Icon(Icons.pin_drop_sharp, color: AppColors.textSecondary),
+              Text(
+                widget.activity.place,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColors.textSecondary,
                 ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-
-                // Hora de terminoOpcional
-                /*Text(
-                  "Hora de termino: ${widget.activity.time}",
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textSecondary,
-                  ),
-                ),*/
-                // Lugar
-                
-                const Icon(Icons.pin_drop_sharp, color: AppColors.textSecondary),
-                Text(
-                  widget.activity.place, 
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ]
-            ),
+              ),
+            ]),
             const SizedBox(height: 12),
-
             // Botones
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -173,18 +173,22 @@ class ActivityViewState extends State<ActivityView> {
                 ),
                 // Botón Terminado/Deshacer
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
                       if (!isCompleted) {
                         // Si no está completada
                         isCompleted = true;
-                        headerColor = Colors.greenAccent; // Cambia el color del header
+                        //headerColor = const Color.fromARGB(
+                            //255, 245, 141, 141); // Cambia el color del header
                       } else {
                         // Deshacer la acción
                         isCompleted = false;
-                        headerColor = originalHeaderColor; // Restaura el color original
+                        headerColor =
+                            originalHeaderColor; // Restaura el color original
                       }
                     });
+                    await _updateActivityCompletion(
+                        isCompleted); // Actualiza en la BD
                   },
                   child: Text(
                     isCompleted ? "Deshacer" : "Terminado",

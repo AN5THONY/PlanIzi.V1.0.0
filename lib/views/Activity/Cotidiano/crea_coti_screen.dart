@@ -65,6 +65,8 @@ class _CreaCotiScreenState extends State<CreaCotiScreen> {
         "comentario": commentController.text,
         "tipo": "cotidiano",
         "timestamp": FieldValue.serverTimestamp(),
+        "isCompleted": false,
+        
       };
 
       // Guardar los datos en Firestore
