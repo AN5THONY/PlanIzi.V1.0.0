@@ -14,7 +14,8 @@ class RadioButtonGroup extends StatelessWidget {
     required this.selectedOption,
     required this.onChanged,
     required this.SelectColor,
-    super.key});
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,26 +23,29 @@ class RadioButtonGroup extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-        title,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),),
-        const SizedBox(height: 8,),
-        ...options.map(
-          (option) {
-            return RadioListTile(
-              value: option, 
-              groupValue: selectedOption,
-              title: Text(option),
-              onChanged: (value){
-                if (value != null) {
-                  onChanged(value);
-                } 
-              },
-              activeColor: SelectColor,
+          title,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 10, // Espacio horizontal 
+          runSpacing: -10, // Espacio vertical 
+          children: options.map(
+            (option) {
+              return RadioListTile(
+                value: option,
+                groupValue: selectedOption,
+                title: Text(option),
+                onChanged: (value) {
+                  if (value != null) {
+                    onChanged(value);
+                  }
+                },
+                activeColor: SelectColor,
               );
-          },
-        )
-        
-        
+            },
+          ).toList(),
+        ),
       ],
     );
   }

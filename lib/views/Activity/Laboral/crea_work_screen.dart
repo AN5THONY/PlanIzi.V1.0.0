@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
+import 'package:plan_izi_v2/widgets/buttons/radio_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreaWorkScreen extends StatefulWidget {
   const CreaWorkScreen({super.key});
@@ -11,9 +14,13 @@ class CreaWorkScreen extends StatefulWidget {
 }
 
 class _CreaWorkScreenState extends State<CreaWorkScreen> {
+  final TextEditingController nombreLaboral = TextEditingController();
+  String selectedTransporte = "transporte";
   String jornada = 'Por Turnos';
   int duracionSemanal = 40;
-  bool autoChecked = true;
+  bool notificarChecked = false;
+  bool timbrarChecked = false;
+  bool urgenteChecked = false;
   final TextEditingController locationFromController = TextEditingController();
   final TextEditingController locationToController = TextEditingController();
   bool transportePublicoChecked = false;
@@ -21,11 +28,9 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
   final TextEditingController lugarController = TextEditingController();
   final TextEditingController comentarioController = TextEditingController();
 
-
   final List<TimeOfDay?> startTimes = List.filled(7, null);
   final List<TimeOfDay?> endTimes = List.filled(7, null);
 
-  
   final List<String> days = [
     "Lunes",
     "Martes",
@@ -36,7 +41,8 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
     "Domingo",
   ];
 
-  Future<void> _selectTime(BuildContext context, int index, bool isStart) async {
+  Future<void> _selectTime(
+      BuildContext context, int index, bool isStart) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
@@ -49,6 +55,58 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
           endTimes[index] = picked;
         }
       });
+    }
+  }
+
+  // almacenar los datos en Firestore
+  Future<void> addWorkToDatabase() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) {
+        throw Exception("Usuario no autenticado.");
+      }
+
+      final Map<String, dynamic> workData = {
+        "nombreActividad": nombreLaboral.text,
+        "transporte": selectedTransporte,
+        "lugarLink": lugarController.text,
+        "ubicacion": {
+          "desde": locationFromController.text,
+          "hasta": locationToController.text,
+        },
+        "horarios": List.generate(days.length, (index) {
+          return {
+            "dia": days[index],
+            "inicio": startTimes[index]?.format(context) ?? "",
+            "fin": endTimes[index]?.format(context) ?? "",
+          };
+        }),
+        "notificar": notificarChecked,
+        "timbrar": timbrarChecked,
+        "urgente": urgenteChecked,
+        "tipo": "laboral",
+        "timestamp": FieldValue.serverTimestamp(),
+      };
+
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(user.uid)
+          .collection("actividades")
+          .add(workData);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text("Actividad laboral agregada exitosamente")),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error al agregar actividad laboral: $e")),
+        );
+      }
     }
   }
 
@@ -88,10 +146,14 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
                   ),
                 ],
               ),
+              CustomTextfield(
+                controller: nombreLaboral,
+                labelText: "Nombre de la actividad",
+                hintText: "",
+                keyboardType: TextInputType.text,
+              ),
               const SizedBox(height: 20),
-              const Text("Distribuyan sus horas"),
-
-             
+              const Text("Distribuya sus horas"),
               ...List.generate(7, (index) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,13 +166,13 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
                     ),
                     Row(
                       children: [
-                        
                         Expanded(
                           child: Column(
                             children: [
                               const Text("Comienza"),
                               ElevatedButton(
-                                onPressed: () => _selectTime(context, index, true),
+                                onPressed: () =>
+                                    _selectTime(context, index, true),
                                 child: Text(
                                   startTimes[index]?.format(context) ?? "--:--",
                                 ),
@@ -119,13 +181,13 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        
                         Expanded(
                           child: Column(
                             children: [
                               const Text("Termina"),
                               ElevatedButton(
-                                onPressed: () => _selectTime(context, index, false),
+                                onPressed: () =>
+                                    _selectTime(context, index, false),
                                 child: Text(
                                   endTimes[index]?.format(context) ?? "--:--",
                                 ),
@@ -138,44 +200,28 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
                   ],
                 );
               }),
-
               const SizedBox(height: 20),
-              const Text("Vas..."),
-              Row(
-                children: [
-                  Checkbox(
-                    value: autoChecked,
-                    onChanged: (value) {
-                      setState(() {
-                        autoChecked = value!;
-                      });
-                    },
-                  ),
-                  const Text("Auto"),
-                  Checkbox(
-                    value: transportePublicoChecked,
-                    onChanged: (value) {
-                      setState(() {
-                        transportePublicoChecked = value!;
-                      });
-                    },
-                  ),
-                  const Text("Transporte público"),
-                  Checkbox(
-                    value: virtualChecked,
-                    onChanged: (value) {
-                      setState(() {
-                        virtualChecked = value!;
-                      });
-                    },
-                  ),
-                  const Text("Virtual"),
-                  
+              RadioButtonGroup(
+                title: 'Vas en ...',
+                options: const [
+                  "Auto",
+                  "Transporte Publico",
                 ],
+                selectedOption: selectedTransporte,
+                onChanged: (value) {
+                  setState(() {
+                    selectedTransporte = value;
+                  });
+                },
+                SelectColor: AppColors.third,
               ),
-              CustomTextfield(controller: lugarController, labelText: 'Link ...'),
+              const Text("Virtual"),
+              const SizedBox(height: 5),
+              CustomTextfield(
+                  controller: lugarController, labelText: 'Link ...'),
               const SizedBox(height: 20),
               const Text("Tu lugar de labor es..."),
+              const SizedBox(height: 5),
               Row(
                 children: [
                   Expanded(
@@ -194,30 +240,42 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
                 ],
               ),
               const SizedBox(height: 20),
-              
               const Text('Necesito que ...'),
               CheckboxListTile(
                 title: const Text("Notificar"),
-                value: true,
-                onChanged: (value) {},
+                value: notificarChecked,
+                onChanged: (value) {
+                  setState(() {
+                    notificarChecked = value ?? false;
+                  });
+                },
               ),
               CheckboxListTile(
                 title: const Text("Timbrar"),
-                value: true,
-                onChanged: (value) {},
+                value: timbrarChecked,
+                onChanged: (value) {
+                  setState(() {
+                    timbrarChecked = value ?? false;
+                  });
+                },
               ),
               const Text('Gastaras tu carga premium',
-                  style: TextStyle(fontSize: 15, color: AppColors.textSecondary)),
+                  style:
+                      TextStyle(fontSize: 15, color: AppColors.textSecondary)),
               CheckboxListTile(
                 title: const Text("Urgente (sonará hasta que lo desactives)"),
-                value: true,
-                onChanged: (value) {},
+                value: urgenteChecked,
+                onChanged: (value) {
+                  setState(() {
+                    urgenteChecked = value ?? false;
+                  });
+                },
               ),
               const SizedBox(height: 20),
               Center(
                 child: PrimaryButton(
                   text: 'Agregar horario',
-                  onPressed: () {},
+                  onPressed: addWorkToDatabase, // llamar a guardar
                   color: AppColors.fifth,
                 ),
               ),
