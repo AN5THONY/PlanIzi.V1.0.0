@@ -5,7 +5,7 @@ import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 import 'package:intl/intl.dart';
-import 'package:plan_izi_v2/views/Menu/Casita/home_screen.dart';
+import 'package:plan_izi_v2/views/Menu/main_menu.dart';
 
 class CreaSpecialScreen extends StatefulWidget {
   const CreaSpecialScreen({super.key});
@@ -96,11 +96,9 @@ class _CreaSpecialScreenState extends State<CreaSpecialScreen> {
       // Redirigir a la pantalla de inicio
       if (mounted) {
         Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  const HomeScreen()), // Asegúrate de que HomeScreen esté importado correctamente
-        );
+            context,
+            MaterialPageRoute(builder: (context) => const MainMenu()),
+          );
       }
     } catch (e) {
       if (mounted) {

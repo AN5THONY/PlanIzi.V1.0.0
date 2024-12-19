@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:plan_izi_v2/theme/app_colors.dart';
 import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
-import 'package:plan_izi_v2/views/Menu/Casita/home_screen.dart';
+import 'package:plan_izi_v2/views/Menu/main_menu.dart';
 
 class CreaStudientScreen extends StatefulWidget {
   const CreaStudientScreen({super.key});
@@ -56,62 +56,62 @@ class _CreaStudientScreenState extends State<CreaStudientScreen> {
   }
 
   // guardar los datos en bd
-  Future<void> addCourseToDatabase() async {
-    try {
-      final user = FirebaseAuth.instance.currentUser;
+Future<void> addCourseToDatabase() async {
+  try {
+    final user = FirebaseAuth.instance.currentUser;
 
-      if (user == null) {
-        throw Exception("Usuario no autenticado.");
-      }
+    if (user == null) {
+      throw Exception("Usuario no autenticado.");
+    }
 
-      final Map<String, dynamic> courseData = {
-        "nombreActividad": nombreCursoController.text,
-        "esVirtual": isVirtual,
-        "esPresencial": isPresencial,
-        "lugar": lugarController.text,
-        "notificar": isNotificar,
-        "timbrar": isTimbrar,
-        "urgente": isUrgente,
-        "diasSeleccionados": List.generate(days.length, (index) {
-          return {
-            "dia": days[index],
-            "numeroDia": (index == 0) ? 0 : index - 1,
-            "horaInicio": startTimes[index]?.format(context) ?? "",
-            "horaFin": endTimes[index]?.format(context) ?? "",
-          };
-        }),
-        "tipo": "estudiantil",
-        "timestamp": FieldValue.serverTimestamp(),
-      };
+    final Map<String, dynamic> courseData = {
+      "nombreActividad": nombreCursoController.text,
+      "esVirtual": isVirtual,
+      "esPresencial": isPresencial,
+      "lugar": lugarController.text,
+      "notificar": isNotificar,
+      "timbrar": isTimbrar,
+      "urgente": isUrgente,
+      "diasSeleccionados": List.generate(days.length, (index) {
+        // Guardar los días como números
+        return {
+          "dia": index,
+          "numeroDia": index,
+          "horaInicio": startTimes[index]?.format(context) ?? "",
+          "horaFin": endTimes[index]?.format(context) ?? "",
+        };
+      }),
+      "tipo": "estudiantil",
+      "timestamp": FieldValue.serverTimestamp(),
+    };
 
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(user.uid)
-          .collection("actividades")
-          .add(courseData);
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.uid)
+        .collection("actividades")
+        .add(courseData);
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Curso agregado exitosamente")),
-        );
-      }
-      // Redirigir a la pantalla de inicio
-      if (mounted) {
-        Navigator.pushReplacement(
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Curso agregado exitosamente")),
+      );
+    }
+    // Redirigir a la pantalla de inicio
+    if (mounted) {
+      Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  const HomeScreen()), // Asegúrate de que HomeScreen esté importado correctamente
+          MaterialPageRoute(builder: (context) => const MainMenu()),
         );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error al agregar curso: $e")),
-        );
-      }
+    }
+  } catch (e) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error al agregar curso: $e")),
+      );
     }
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

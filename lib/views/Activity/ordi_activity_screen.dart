@@ -6,7 +6,8 @@ import 'package:plan_izi_v2/widgets/buttons/radio_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'package:plan_izi_v2/views/Menu/Casita/home_screen.dart';
+
+import 'package:plan_izi_v2/views/Menu/main_menu.dart';
 
 class OrdiActivityScreen extends StatefulWidget {
   const OrdiActivityScreen({super.key});
@@ -106,9 +107,7 @@ class _OrdiActivityScreenState extends State<OrdiActivityScreen> {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  const HomeScreen()), // Asegúrate de que HomeScreen esté importado correctamente
+          MaterialPageRoute(builder: (context) => const MainMenu()),
         );
       }
     } catch (e) {

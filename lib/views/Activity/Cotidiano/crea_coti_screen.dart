@@ -4,7 +4,7 @@ import 'package:plan_izi_v2/widgets/buttons/primary_button.dart';
 import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:plan_izi_v2/views/Menu/Casita/home_screen.dart';
+import 'package:plan_izi_v2/views/Menu/main_menu.dart';
 
 class CreaCotiScreen extends StatefulWidget {
   const CreaCotiScreen({super.key});
@@ -84,11 +84,9 @@ class _CreaCotiScreenState extends State<CreaCotiScreen> {
       // Redirigir a la pantalla de inicio
       if (mounted) {
         Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  const HomeScreen()), // Asegúrate de que HomeScreen esté importado correctamente
-        );
+            context,
+            MaterialPageRoute(builder: (context) => const MainMenu()),
+          );
       }
     } catch (e) {
       // Mostrar un mensaje de error si algo falla

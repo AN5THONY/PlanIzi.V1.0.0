@@ -5,7 +5,8 @@ import 'package:plan_izi_v2/widgets/textfields/custom_textfield.dart';
 import 'package:plan_izi_v2/widgets/buttons/radio_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:plan_izi_v2/views/Menu/Casita/home_screen.dart';
+
+import 'package:plan_izi_v2/views/Menu/main_menu.dart';
 
 class CreaWorkScreen extends StatefulWidget {
   const CreaWorkScreen({super.key});
@@ -106,11 +107,9 @@ class _CreaWorkScreenState extends State<CreaWorkScreen> {
       // Redirigir a la pantalla de inicio
       if (mounted) {
         Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  const HomeScreen()), // Asegúrate de que HomeScreen esté importado correctamente
-        );
+            context,
+            MaterialPageRoute(builder: (context) => const MainMenu()),
+          );
       }
     } catch (e) {
       if (mounted) {
